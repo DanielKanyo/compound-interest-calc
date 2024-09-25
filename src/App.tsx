@@ -1,11 +1,51 @@
+import { useState, useMemo } from "react";
+
 import { AppShell, Burger, Group, Image, Card, NumberInput, Flex, Tooltip } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { useDisclosure } from "@mantine/hooks";
 
-import logo from "../public/favicon.png";
+import logo from "/favicon.png";
 
 export function App() {
     const [opened, { toggle }] = useDisclosure();
+
+    const [initialInvestment, setInitialInvestment] = useState<number | string>(0);
+    const [monthlyContribution, setMonthlyContribution] = useState<number | string>(1000);
+    const [lengthOfTimeInYears, setLengthOfTimeInYears] = useState<number | string>(30);
+    const [interestRate, setInterestRate] = useState<number | string>(8);
+    const [inflationRate, setInflationRate] = useState<number | string>(8);
+    const [increaseInAnnualContributions, setIncreaseInAnnualContributions] = useState<number | string>(0);
+
+    const calcInvestedCapital = (
+        initialInvestment: number | string,
+        monthlyContribution: number | string,
+        lengthOfTimeInYears: number | string,
+        increaseInAnnualContributions: number | string
+    ) => {
+        const data = [];
+        const numOfMonthsInOneYear = 12;
+        const numOfYears = Number(lengthOfTimeInYears);
+        const increase = Number(increaseInAnnualContributions) / 100;
+
+        let monthlyContributionAmount = Number(monthlyContribution);
+        let amountPerYear = Number(initialInvestment);
+
+        for (let i = 1; i <= numOfYears; i++) {
+            amountPerYear += monthlyContributionAmount * numOfMonthsInOneYear;
+
+            data.push({ year: i, capital: amountPerYear });
+
+            monthlyContributionAmount += monthlyContributionAmount * increase;
+        }
+
+        return data;
+    };
+
+    const capitalPerYear = useMemo(() => {
+        return calcInvestedCapital(initialInvestment, monthlyContribution, lengthOfTimeInYears, increaseInAnnualContributions);
+    }, [initialInvestment, monthlyContribution, lengthOfTimeInYears, increaseInAnnualContributions]);
+
+    console.log(capitalPerYear);
 
     return (
         <AppShell
@@ -38,7 +78,8 @@ export function App() {
                                 label="Initial Investment"
                                 placeholder="Amount"
                                 thousandSeparator=" "
-                                defaultValue={0}
+                                value={initialInvestment}
+                                onChange={setInitialInvestment}
                             />
                         </Tooltip>
                         <Tooltip
@@ -55,7 +96,8 @@ export function App() {
                                 label="Monthly Contribution"
                                 placeholder="Amount"
                                 thousandSeparator=" "
-                                defaultValue={1000}
+                                value={monthlyContribution}
+                                onChange={setMonthlyContribution}
                             />
                         </Tooltip>
                         <Tooltip
@@ -72,7 +114,8 @@ export function App() {
                                 label="Length of Time in Years"
                                 placeholder="Amount"
                                 thousandSeparator=" "
-                                defaultValue={40}
+                                value={lengthOfTimeInYears}
+                                onChange={setLengthOfTimeInYears}
                             />
                         </Tooltip>
                         <Tooltip
@@ -90,6 +133,8 @@ export function App() {
                                 placeholder="Amount"
                                 thousandSeparator=" "
                                 defaultValue={8}
+                                value={interestRate}
+                                onChange={setInterestRate}
                             />
                         </Tooltip>
                         <Tooltip
@@ -106,7 +151,8 @@ export function App() {
                                 label="Inflation Rate"
                                 placeholder="Amount"
                                 thousandSeparator=" "
-                                defaultValue={3}
+                                value={inflationRate}
+                                onChange={setInflationRate}
                             />
                         </Tooltip>
                         <Tooltip
@@ -123,7 +169,8 @@ export function App() {
                                 label="Increase in Annual Contributions"
                                 placeholder="Amount"
                                 thousandSeparator=" "
-                                defaultValue={0}
+                                value={increaseInAnnualContributions}
+                                onChange={setIncreaseInAnnualContributions}
                             />
                         </Tooltip>
                     </Flex>

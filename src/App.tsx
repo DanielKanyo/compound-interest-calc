@@ -38,20 +38,27 @@ export function App() {
 
         let tmp = (totalContribution + monthlyContributionAmount) * (1 + (rate - inflation) / 12);
         let value = totalContribution;
+        let yearCounter = 0;
 
-        const result = [{ month: 0, contribution: totalContribution, value }];
+        const monthy = [{ month: 0, contribution: totalContribution, value }];
+        const yearly = [{ year: yearCounter.toString(), contribution: totalContribution, value }];
 
         for (let i = 1; i <= numOfYears * numOfMonthsInOneYear; i++) {
             totalContribution += monthlyContributionAmount;
 
             if (i === 1) {
-                result.push({ month: i, contribution: totalContribution, value: tmp });
+                monthy.push({ month: i, contribution: totalContribution, value: tmp });
 
                 value += tmp;
             } else {
                 value = tmp * (1 + (rate - inflation) / 12) + monthlyContributionAmount;
 
-                result.push({ month: i, contribution: totalContribution, value });
+                monthy.push({ month: i, contribution: totalContribution, value });
+
+                if (i % 12 === 0) {
+                    ++yearCounter;
+                    yearly.push({ year: yearCounter.toString(), contribution: totalContribution, value });
+                }
 
                 tmp = value;
             }
@@ -62,10 +69,10 @@ export function App() {
             }
         }
 
-        return result;
+        return { monthy, yearly };
     };
 
-    const data = useMemo(() => {
+    const { yearly } = useMemo(() => {
         return calcCompoundInterest(
             initialInvestment,
             monthlyContribution,
@@ -75,8 +82,6 @@ export function App() {
             increaseInAnnualContributions
         );
     }, [initialInvestment, monthlyContribution, lengthOfTimeInYears, interestRate, inflationRate, increaseInAnnualContributions]);
-
-    console.log(data);
 
     return (
         <AppShell
@@ -152,6 +157,8 @@ export function App() {
                                 rightSection={
                                     <IconHourglassHigh style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />
                                 }
+                                clampBehavior="strict"
+                                max={100}
                             />
                         </Tooltip>
                         <Tooltip
@@ -218,16 +225,20 @@ export function App() {
             <AppShell.Main>
                 <AreaChart
                     h="calc(100vh - 92px)"
-                    data={data}
+                    data={yearly}
                     withLegend
-                    legendProps={{ verticalAlign: "bottom", height: 50 }}
-                    dataKey="month"
+                    tickLine="xy"
+                    legendProps={{ verticalAlign: "bottom", height: 60 }}
+                    dataKey="year"
                     series={[
-                        { name: "contribution", color: "teal.6" },
-                        { name: "value", color: "blue.6" },
+                        { name: "contribution", label: "Contribution", color: "blue.6" },
+                        { name: "value", label: "Compound interest", color: "teal.6" },
                     ]}
                     curveType="linear"
-                    withDots={false}
+                    valueFormatter={(value) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value)}
+                    xAxisLabel="Years"
+                    yAxisLabel="Amount"
+                    yAxisProps={{ tickFormatter: (value) => new Intl.NumberFormat("en-US", { notation: "compact" }).format(value) }}
                 />
             </AppShell.Main>
         </AppShell>

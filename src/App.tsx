@@ -1,5 +1,7 @@
 import { useState, useMemo } from "react";
 
+import { AreaChart } from "@mantine/charts";
+import "@mantine/charts/styles.css";
 import { AppShell, Burger, Group, Image, Card, NumberInput, Flex, Tooltip, rem } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { useDisclosure } from "@mantine/hooks";
@@ -17,7 +19,7 @@ export function App() {
     const [inflationRate, setInflationRate] = useState<number | string>(0);
     const [increaseInAnnualContributions, setIncreaseInAnnualContributions] = useState<number | string>(0);
 
-    const calcInvestedCapitalWithCompoundInterestAndInflation = (
+    const calcCompoundInterest = (
         initialInvestment: number | string,
         monthlyContribution: number | string,
         lengthOfTimeInYears: number | string,
@@ -63,8 +65,8 @@ export function App() {
         return result;
     };
 
-    const capitalWithCompoundInterestAndInflationPerYear = useMemo(() => {
-        return calcInvestedCapitalWithCompoundInterestAndInflation(
+    const data = useMemo(() => {
+        return calcCompoundInterest(
             initialInvestment,
             monthlyContribution,
             lengthOfTimeInYears,
@@ -74,7 +76,7 @@ export function App() {
         );
     }, [initialInvestment, monthlyContribution, lengthOfTimeInYears, interestRate, inflationRate, increaseInAnnualContributions]);
 
-    console.log(capitalWithCompoundInterestAndInflationPerYear);
+    console.log(data);
 
     return (
         <AppShell
@@ -213,7 +215,21 @@ export function App() {
                     </Flex>
                 </Card>
             </AppShell.Navbar>
-            <AppShell.Main>Main</AppShell.Main>
+            <AppShell.Main>
+                <AreaChart
+                    h="calc(100vh - 92px)"
+                    data={data}
+                    withLegend
+                    legendProps={{ verticalAlign: "bottom", height: 50 }}
+                    dataKey="month"
+                    series={[
+                        { name: "contribution", color: "teal.6" },
+                        { name: "value", color: "blue.6" },
+                    ]}
+                    curveType="linear"
+                    withDots={false}
+                />
+            </AppShell.Main>
         </AppShell>
     );
 }

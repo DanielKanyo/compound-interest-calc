@@ -1,5 +1,9 @@
-import { createTheme } from "@mantine/core";
+import { createTheme, Input } from "@mantine/core";
+
+import inputClasses from "./input.module.css";
 
 export const theme = createTheme({
-    /** Put your mantine theme override here */
+    components: {
+        InputWrapper: Input.Wrapper.extend({ classNames: inputClasses }),
+    },
 });

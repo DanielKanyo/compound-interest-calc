@@ -1,8 +1,9 @@
 import { useState, useMemo } from "react";
 
-import { AppShell, Burger, Group, Image, Card, NumberInput, Flex, Tooltip } from "@mantine/core";
+import { AppShell, Burger, Group, Image, Card, NumberInput, Flex, Tooltip, rem } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { useDisclosure } from "@mantine/hooks";
+import { IconPercentage, IconHourglassHigh, IconFlag, IconPigMoney } from "@tabler/icons-react";
 
 import logo from "/favicon.png";
 
@@ -10,42 +11,70 @@ export function App() {
     const [opened, { toggle }] = useDisclosure();
 
     const [initialInvestment, setInitialInvestment] = useState<number | string>(0);
-    const [monthlyContribution, setMonthlyContribution] = useState<number | string>(1000);
-    const [lengthOfTimeInYears, setLengthOfTimeInYears] = useState<number | string>(30);
-    const [interestRate, setInterestRate] = useState<number | string>(8);
-    const [inflationRate, setInflationRate] = useState<number | string>(8);
+    const [monthlyContribution, setMonthlyContribution] = useState<number | string>(50000);
+    const [lengthOfTimeInYears, setLengthOfTimeInYears] = useState<number | string>(1);
+    const [interestRate, setInterestRate] = useState<number | string>(10);
+    const [inflationRate, setInflationRate] = useState<number | string>(0);
     const [increaseInAnnualContributions, setIncreaseInAnnualContributions] = useState<number | string>(0);
 
-    const calcInvestedCapital = (
+    const calcInvestedCapitalWithCompoundInterestAndInflation = (
         initialInvestment: number | string,
         monthlyContribution: number | string,
         lengthOfTimeInYears: number | string,
+        interestRate: number | string,
+        inflationRate: number | string,
         increaseInAnnualContributions: number | string
     ) => {
-        const data = [];
         const numOfMonthsInOneYear = 12;
         const numOfYears = Number(lengthOfTimeInYears);
         const increase = Number(increaseInAnnualContributions) / 100;
+        const rate = Number(interestRate) / 100;
+        const inflation = Number(inflationRate) / 100;
 
         let monthlyContributionAmount = Number(monthlyContribution);
-        let amountPerYear = Number(initialInvestment);
+        let totalContribution = Number(initialInvestment);
 
-        for (let i = 1; i <= numOfYears; i++) {
-            amountPerYear += monthlyContributionAmount * numOfMonthsInOneYear;
+        let tmp = (totalContribution + monthlyContributionAmount) * (1 + (rate - inflation) / 12);
+        let value = totalContribution;
 
-            data.push({ year: i, capital: amountPerYear });
+        const result = [{ month: 0, contribution: totalContribution, value }];
 
-            monthlyContributionAmount += monthlyContributionAmount * increase;
+        for (let i = 1; i <= numOfYears * numOfMonthsInOneYear; i++) {
+            totalContribution += monthlyContributionAmount;
+
+            if (i === 1) {
+                result.push({ month: i, contribution: totalContribution, value: tmp });
+
+                value += tmp;
+            } else {
+                value = tmp * (1 + (rate - inflation) / 12) + monthlyContributionAmount;
+
+                result.push({ month: i, contribution: totalContribution, value });
+
+                tmp = value;
+            }
+
+            // Increase monthly contribution amount after 12 months
+            if (i % 12 === 0) {
+                monthlyContributionAmount += monthlyContributionAmount * increase;
+            }
         }
 
-        return data;
+        return result;
     };
 
-    const capitalPerYear = useMemo(() => {
-        return calcInvestedCapital(initialInvestment, monthlyContribution, lengthOfTimeInYears, increaseInAnnualContributions);
-    }, [initialInvestment, monthlyContribution, lengthOfTimeInYears, increaseInAnnualContributions]);
+    const capitalWithCompoundInterestAndInflationPerYear = useMemo(() => {
+        return calcInvestedCapitalWithCompoundInterestAndInflation(
+            initialInvestment,
+            monthlyContribution,
+            lengthOfTimeInYears,
+            interestRate,
+            inflationRate,
+            increaseInAnnualContributions
+        );
+    }, [initialInvestment, monthlyContribution, lengthOfTimeInYears, interestRate, inflationRate, increaseInAnnualContributions]);
 
-    console.log(capitalPerYear);
+    console.log(capitalWithCompoundInterestAndInflationPerYear);
 
     return (
         <AppShell
@@ -80,6 +109,7 @@ export function App() {
                                 thousandSeparator=" "
                                 value={initialInvestment}
                                 onChange={setInitialInvestment}
+                                rightSection={<IconFlag style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
                             />
                         </Tooltip>
                         <Tooltip
@@ -98,6 +128,7 @@ export function App() {
                                 thousandSeparator=" "
                                 value={monthlyContribution}
                                 onChange={setMonthlyContribution}
+                                rightSection={<IconPigMoney style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
                             />
                         </Tooltip>
                         <Tooltip
@@ -116,6 +147,9 @@ export function App() {
                                 thousandSeparator=" "
                                 value={lengthOfTimeInYears}
                                 onChange={setLengthOfTimeInYears}
+                                rightSection={
+                                    <IconHourglassHigh style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />
+                                }
                             />
                         </Tooltip>
                         <Tooltip
@@ -135,6 +169,7 @@ export function App() {
                                 defaultValue={8}
                                 value={interestRate}
                                 onChange={setInterestRate}
+                                rightSection={<IconPercentage style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
                             />
                         </Tooltip>
                         <Tooltip
@@ -153,6 +188,7 @@ export function App() {
                                 thousandSeparator=" "
                                 value={inflationRate}
                                 onChange={setInflationRate}
+                                rightSection={<IconPercentage style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
                             />
                         </Tooltip>
                         <Tooltip
@@ -171,6 +207,7 @@ export function App() {
                                 thousandSeparator=" "
                                 value={increaseInAnnualContributions}
                                 onChange={setIncreaseInAnnualContributions}
+                                rightSection={<IconPercentage style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
                             />
                         </Tooltip>
                     </Flex>

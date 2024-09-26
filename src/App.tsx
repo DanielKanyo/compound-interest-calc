@@ -2,20 +2,20 @@ import { useState, useMemo } from "react";
 
 import { AreaChart } from "@mantine/charts";
 import "@mantine/charts/styles.css";
-import { AppShell, Burger, Group, Image, Card, NumberInput, Flex, Tooltip, rem } from "@mantine/core";
+import { AppShell, ScrollArea } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { useDisclosure } from "@mantine/hooks";
-import { IconPercentage, IconHourglassHigh, IconFlag, IconPigMoney } from "@tabler/icons-react";
 
-import logo from "/favicon.png";
+import { Header } from "./Components/Header";
+import { Inputs } from "./Components/Inputs";
 
-export function App() {
+export const App = () => {
     const [opened, { toggle }] = useDisclosure();
 
     const [initialInvestment, setInitialInvestment] = useState<number | string>(0);
-    const [monthlyContribution, setMonthlyContribution] = useState<number | string>(50000);
-    const [lengthOfTimeInYears, setLengthOfTimeInYears] = useState<number | string>(1);
-    const [interestRate, setInterestRate] = useState<number | string>(10);
+    const [monthlyContribution, setMonthlyContribution] = useState<number | string>(1000);
+    const [lengthOfTimeInYears, setLengthOfTimeInYears] = useState<number | string>(20);
+    const [interestRate, setInterestRate] = useState<number | string>(7);
     const [inflationRate, setInflationRate] = useState<number | string>(0);
     const [increaseInAnnualContributions, setIncreaseInAnnualContributions] = useState<number | string>(0);
 
@@ -86,149 +86,39 @@ export function App() {
     return (
         <AppShell
             header={{ height: 60 }}
-            navbar={{ width: 480, breakpoint: "sm", collapsed: { mobile: !opened } }}
+            footer={{ height: 60 }}
+            navbar={{ width: 440, breakpoint: "sm", collapsed: { mobile: !opened } }}
+            aside={{ width: 300, breakpoint: "md", collapsed: { desktop: false, mobile: true } }}
             transitionDuration={0}
             padding="md"
         >
             <AppShell.Header>
-                <Group h="100%" px="md">
-                    <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-                    <Image h={32} src={logo} />
-                    Compound Interest Calculator
-                </Group>
+                <Header opened={opened} toggle={toggle} />
             </AppShell.Header>
             <AppShell.Navbar p="md">
-                <Card shadow="sm" padding="lg" radius="md" withBorder>
-                    <Flex gap="lg" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
-                        <Tooltip
-                            label='"Initial Investment" refers to the starting amount of money invested before any additional contributions or interest growth occurs in a compound interest calculation.'
-                            color="indigo"
-                            position="right"
-                            withArrow
-                            w={320}
-                            multiline
-                        >
-                            <NumberInput
-                                w="100%"
-                                size="md"
-                                label="Initial Investment"
-                                placeholder="Amount"
-                                thousandSeparator=" "
-                                value={initialInvestment}
-                                onChange={setInitialInvestment}
-                                rightSection={<IconFlag style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
-                            />
-                        </Tooltip>
-                        <Tooltip
-                            label='"Monthly Contribution" refers to the fixed amount of money added to the investment each month, which accumulates alongside the compound interest over time.'
-                            color="indigo"
-                            position="right"
-                            withArrow
-                            w={320}
-                            multiline
-                        >
-                            <NumberInput
-                                w="100%"
-                                size="md"
-                                label="Monthly Contribution"
-                                placeholder="Amount"
-                                thousandSeparator=" "
-                                value={monthlyContribution}
-                                onChange={setMonthlyContribution}
-                                rightSection={<IconPigMoney style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
-                            />
-                        </Tooltip>
-                        <Tooltip
-                            label='"Length of Time in Years" refers to the number of years an investment is allowed to grow with compound interest applied.'
-                            color="indigo"
-                            position="right"
-                            withArrow
-                            w={320}
-                            multiline
-                        >
-                            <NumberInput
-                                w="100%"
-                                size="md"
-                                label="Length of Time in Years"
-                                placeholder="Amount"
-                                thousandSeparator=" "
-                                value={lengthOfTimeInYears}
-                                onChange={setLengthOfTimeInYears}
-                                rightSection={
-                                    <IconHourglassHigh style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />
-                                }
-                                clampBehavior="strict"
-                                max={100}
-                            />
-                        </Tooltip>
-                        <Tooltip
-                            label='"Interest Rate" refers to the percentage at which your investment grows annually due to earned interest, compounded over time in a compound interest calculation.'
-                            color="indigo"
-                            position="right"
-                            withArrow
-                            w={320}
-                            multiline
-                        >
-                            <NumberInput
-                                w="100%"
-                                size="md"
-                                label="Interest Rate"
-                                placeholder="Amount"
-                                thousandSeparator=" "
-                                defaultValue={8}
-                                value={interestRate}
-                                onChange={setInterestRate}
-                                rightSection={<IconPercentage style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
-                            />
-                        </Tooltip>
-                        <Tooltip
-                            label='"Inflation Rate" refers to the percentage increase in the general price level of goods and services over time, which can reduce the real value of returns in a compound interest investment.'
-                            color="indigo"
-                            position="right"
-                            withArrow
-                            w={320}
-                            multiline
-                        >
-                            <NumberInput
-                                w="100%"
-                                size="md"
-                                label="Inflation Rate"
-                                placeholder="Amount"
-                                thousandSeparator=" "
-                                value={inflationRate}
-                                onChange={setInflationRate}
-                                rightSection={<IconPercentage style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
-                            />
-                        </Tooltip>
-                        <Tooltip
-                            label='"Increase in Annual Contributions" refers to the additional amount added each year to the principal investment, which grows alongside the accumulated interest over time in a compound interest scenario.'
-                            color="indigo"
-                            position="right"
-                            withArrow
-                            w={320}
-                            multiline
-                        >
-                            <NumberInput
-                                w="100%"
-                                size="md"
-                                label="Increase in Annual Contributions"
-                                placeholder="Amount"
-                                thousandSeparator=" "
-                                value={increaseInAnnualContributions}
-                                onChange={setIncreaseInAnnualContributions}
-                                rightSection={<IconPercentage style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
-                            />
-                        </Tooltip>
-                    </Flex>
-                </Card>
+                <AppShell.Section grow component={ScrollArea}>
+                    <Inputs
+                        initialInvestment={initialInvestment}
+                        monthlyContribution={monthlyContribution}
+                        lengthOfTimeInYears={lengthOfTimeInYears}
+                        interestRate={interestRate}
+                        inflationRate={inflationRate}
+                        increaseInAnnualContributions={increaseInAnnualContributions}
+                        setInitialInvestment={setInitialInvestment}
+                        setMonthlyContribution={setMonthlyContribution}
+                        setLengthOfTimeInYears={setLengthOfTimeInYears}
+                        setInterestRate={setInterestRate}
+                        setInflationRate={setInflationRate}
+                        setIncreaseInAnnualContributions={setIncreaseInAnnualContributions}
+                    />
+                </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
                 <AreaChart
-                    h="calc(100vh - 92px)"
+                    h="calc(100vh - 152px)"
                     data={yearly}
                     withLegend
                     tickLine="xy"
-                    legendProps={{ verticalAlign: "bottom", height: 60 }}
                     dataKey="year"
                     series={[
                         { name: "contribution", label: "Contribution", color: "blue.6" },
@@ -241,6 +131,8 @@ export function App() {
                     yAxisProps={{ tickFormatter: (value) => new Intl.NumberFormat("en-US", { notation: "compact" }).format(value) }}
                 />
             </AppShell.Main>
+            <AppShell.Aside p="md">Aside</AppShell.Aside>
+            <AppShell.Footer p="md">Footer</AppShell.Footer>
         </AppShell>
     );
-}
+};

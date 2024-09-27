@@ -1,5 +1,5 @@
 import { Card, NumberInput, Flex, Tooltip, rem } from "@mantine/core";
-import { IconPercentage, IconHourglassHigh, IconFlag, IconPigMoney } from "@tabler/icons-react";
+import { IconPercentage, IconHourglassHigh, IconFlag, IconPigMoney, IconClockStop } from "@tabler/icons-react";
 
 type InputsProps = {
     initialInvestment: string | number;
@@ -8,12 +8,14 @@ type InputsProps = {
     interestRate: string | number;
     inflationRate: string | number;
     increaseInAnnualContributions: string | number;
+    endOfContributions: string | number;
     setInitialInvestment: (value: string | number) => void;
     setMonthlyContribution: (value: string | number) => void;
     setLengthOfTimeInYears: (value: string | number) => void;
     setInterestRate: (value: string | number) => void;
     setInflationRate: (value: string | number) => void;
     setIncreaseInAnnualContributions: (value: string | number) => void;
+    setEndOfContributions: (value: string | number) => void;
 };
 
 export const Inputs = ({
@@ -23,12 +25,14 @@ export const Inputs = ({
     interestRate,
     inflationRate,
     increaseInAnnualContributions,
+    endOfContributions,
     setInitialInvestment,
     setMonthlyContribution,
     setLengthOfTimeInYears,
     setInterestRate,
     setInflationRate,
     setIncreaseInAnnualContributions,
+    setEndOfContributions,
 }: InputsProps) => {
     return (
         <>
@@ -48,6 +52,7 @@ export const Inputs = ({
                             label="Initial Investment"
                             placeholder="Amount"
                             thousandSeparator=" "
+                            withAsterisk
                             value={initialInvestment}
                             onChange={setInitialInvestment}
                             rightSection={<IconFlag style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
@@ -67,6 +72,7 @@ export const Inputs = ({
                             label="Monthly Contribution"
                             placeholder="Amount"
                             thousandSeparator=" "
+                            withAsterisk
                             value={monthlyContribution}
                             onChange={setMonthlyContribution}
                             rightSection={<IconPigMoney style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
@@ -86,6 +92,7 @@ export const Inputs = ({
                             label="Length of Time in Years"
                             placeholder="Amount"
                             thousandSeparator=" "
+                            withAsterisk
                             value={lengthOfTimeInYears}
                             onChange={setLengthOfTimeInYears}
                             rightSection={<IconHourglassHigh style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
@@ -107,6 +114,7 @@ export const Inputs = ({
                             label="Interest Rate"
                             placeholder="Amount"
                             thousandSeparator=" "
+                            withAsterisk
                             defaultValue={8}
                             value={interestRate}
                             onChange={setInterestRate}
@@ -153,6 +161,25 @@ export const Inputs = ({
                             value={increaseInAnnualContributions}
                             onChange={setIncreaseInAnnualContributions}
                             rightSection={<IconPercentage style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
+                        />
+                    </Tooltip>
+                    <Tooltip
+                        label='"End of Contributions" refers to the point in time when additional investments or deposits into the account stop, while the existing balance may continue to grow with compound interest.'
+                        color="indigo"
+                        position="right"
+                        withArrow
+                        w={320}
+                        multiline
+                    >
+                        <NumberInput
+                            w="100%"
+                            size="md"
+                            label="End of Contributions"
+                            placeholder="Year"
+                            thousandSeparator=" "
+                            value={endOfContributions}
+                            onChange={setEndOfContributions}
+                            rightSection={<IconClockStop style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
                         />
                     </Tooltip>
                 </Flex>

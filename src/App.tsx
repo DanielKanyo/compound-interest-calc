@@ -18,6 +18,7 @@ export const App = () => {
     const [interestRate, setInterestRate] = useState<number | string>(7);
     const [inflationRate, setInflationRate] = useState<number | string>(0);
     const [increaseInAnnualContributions, setIncreaseInAnnualContributions] = useState<number | string>(0);
+    const [endOfContributions, setEndOfContributions] = useState<number | string>("");
 
     const calcCompoundInterest = (
         initialInvestment: number | string,
@@ -25,7 +26,8 @@ export const App = () => {
         lengthOfTimeInYears: number | string,
         interestRate: number | string,
         inflationRate: number | string,
-        increaseInAnnualContributions: number | string
+        increaseInAnnualContributions: number | string,
+        endOfContributions: number | string
     ) => {
         const numOfMonthsInOneYear = 12;
         const numOfYears = Number(lengthOfTimeInYears);
@@ -63,6 +65,10 @@ export const App = () => {
                 tmp = value;
             }
 
+            if (yearCounter === endOfContributions) {
+                monthlyContributionAmount = 0;
+            }
+
             // Increase monthly contribution amount after 12 months
             if (i % 12 === 0) {
                 monthlyContributionAmount += monthlyContributionAmount * increase;
@@ -79,9 +85,18 @@ export const App = () => {
             lengthOfTimeInYears,
             interestRate,
             inflationRate,
-            increaseInAnnualContributions
+            increaseInAnnualContributions,
+            endOfContributions
         );
-    }, [initialInvestment, monthlyContribution, lengthOfTimeInYears, interestRate, inflationRate, increaseInAnnualContributions]);
+    }, [
+        initialInvestment,
+        monthlyContribution,
+        lengthOfTimeInYears,
+        interestRate,
+        inflationRate,
+        increaseInAnnualContributions,
+        endOfContributions,
+    ]);
 
     return (
         <AppShell
@@ -104,12 +119,14 @@ export const App = () => {
                         interestRate={interestRate}
                         inflationRate={inflationRate}
                         increaseInAnnualContributions={increaseInAnnualContributions}
+                        endOfContributions={endOfContributions}
                         setInitialInvestment={setInitialInvestment}
                         setMonthlyContribution={setMonthlyContribution}
                         setLengthOfTimeInYears={setLengthOfTimeInYears}
                         setInterestRate={setInterestRate}
                         setInflationRate={setInflationRate}
                         setIncreaseInAnnualContributions={setIncreaseInAnnualContributions}
+                        setEndOfContributions={setEndOfContributions}
                     />
                 </AppShell.Section>
             </AppShell.Navbar>

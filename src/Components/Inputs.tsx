@@ -1,5 +1,5 @@
 import { Card, NumberInput, Flex, Tooltip, rem } from "@mantine/core";
-import { IconPercentage, IconHourglassHigh, IconFlag, IconPigMoney, IconClockStop } from "@tabler/icons-react";
+import { IconPercentage, IconHourglassHigh, IconFlag, IconPigMoney, IconClockStop, IconMoneybag } from "@tabler/icons-react";
 
 type InputsProps = {
     initialInvestment: string | number;
@@ -9,6 +9,7 @@ type InputsProps = {
     inflationRate: string | number;
     increaseInAnnualContributions: string | number;
     endOfContributions: string | number;
+    goal: string | number;
     setInitialInvestment: (value: string | number) => void;
     setMonthlyContribution: (value: string | number) => void;
     setLengthOfTimeInYears: (value: string | number) => void;
@@ -16,6 +17,7 @@ type InputsProps = {
     setInflationRate: (value: string | number) => void;
     setIncreaseInAnnualContributions: (value: string | number) => void;
     setEndOfContributions: (value: string | number) => void;
+    setGoal: (value: string | number) => void;
 };
 
 export const Inputs = ({
@@ -26,6 +28,7 @@ export const Inputs = ({
     inflationRate,
     increaseInAnnualContributions,
     endOfContributions,
+    goal,
     setInitialInvestment,
     setMonthlyContribution,
     setLengthOfTimeInYears,
@@ -33,6 +36,7 @@ export const Inputs = ({
     setInflationRate,
     setIncreaseInAnnualContributions,
     setEndOfContributions,
+    setGoal,
 }: InputsProps) => {
     return (
         <>
@@ -180,6 +184,25 @@ export const Inputs = ({
                             value={endOfContributions}
                             onChange={setEndOfContributions}
                             rightSection={<IconClockStop style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
+                        />
+                    </Tooltip>
+                    <Tooltip
+                        label='"Goal" refers to the target amount of money you aim to reach through investments and compound interest over a specified period.'
+                        color="indigo"
+                        position="right"
+                        withArrow
+                        w={320}
+                        multiline
+                    >
+                        <NumberInput
+                            w="100%"
+                            size="md"
+                            label="Goal"
+                            placeholder="Amount"
+                            thousandSeparator=" "
+                            value={goal}
+                            onChange={setGoal}
+                            rightSection={<IconMoneybag style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
                         />
                     </Tooltip>
                 </Flex>

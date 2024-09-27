@@ -1,13 +1,14 @@
 import { useState, useMemo } from "react";
 
-import { AreaChart } from "@mantine/charts";
-import "@mantine/charts/styles.css";
 import { AppShell, ScrollArea } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { useDisclosure } from "@mantine/hooks";
 
+import { ChartArea } from "./Components/ChartArea";
 import { Header } from "./Components/Header";
 import { Inputs } from "./Components/Inputs";
+import { Monthly } from "./Types/Monthly";
+import { Yearly } from "./Types/Yearly";
 
 export const App = () => {
     const [opened, { toggle }] = useDisclosure();
@@ -19,6 +20,7 @@ export const App = () => {
     const [inflationRate, setInflationRate] = useState<number | string>(0);
     const [increaseInAnnualContributions, setIncreaseInAnnualContributions] = useState<number | string>(0);
     const [endOfContributions, setEndOfContributions] = useState<number | string>("");
+    const [goal, setGoal] = useState<number | string>("");
 
     const calcCompoundInterest = (
         initialInvestment: number | string,
@@ -42,8 +44,8 @@ export const App = () => {
         let value = totalContribution;
         let yearCounter = 0;
 
-        const monthy = [{ month: 0, contribution: totalContribution, value }];
-        const yearly = [{ year: yearCounter.toString(), contribution: totalContribution, value }];
+        const monthy: Monthly[] = [{ month: 0, contribution: totalContribution, value }];
+        const yearly: Yearly[] = [{ year: yearCounter.toString(), contribution: totalContribution, value }];
 
         for (let i = 1; i <= numOfYears * numOfMonthsInOneYear; i++) {
             totalContribution += monthlyContributionAmount;
@@ -102,7 +104,7 @@ export const App = () => {
         <AppShell
             header={{ height: 60 }}
             footer={{ height: 60 }}
-            navbar={{ width: 440, breakpoint: "sm", collapsed: { mobile: !opened } }}
+            navbar={{ width: 410, breakpoint: "sm", collapsed: { mobile: !opened } }}
             aside={{ width: 300, breakpoint: "md", collapsed: { desktop: false, mobile: true } }}
             transitionDuration={0}
             padding="md"
@@ -120,6 +122,7 @@ export const App = () => {
                         inflationRate={inflationRate}
                         increaseInAnnualContributions={increaseInAnnualContributions}
                         endOfContributions={endOfContributions}
+                        goal={goal}
                         setInitialInvestment={setInitialInvestment}
                         setMonthlyContribution={setMonthlyContribution}
                         setLengthOfTimeInYears={setLengthOfTimeInYears}
@@ -127,26 +130,12 @@ export const App = () => {
                         setInflationRate={setInflationRate}
                         setIncreaseInAnnualContributions={setIncreaseInAnnualContributions}
                         setEndOfContributions={setEndOfContributions}
+                        setGoal={setGoal}
                     />
                 </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
-                <AreaChart
-                    h="calc(100vh - 152px)"
-                    data={yearly}
-                    withLegend
-                    tickLine="xy"
-                    dataKey="year"
-                    series={[
-                        { name: "contribution", label: "Contribution", color: "blue.6" },
-                        { name: "value", label: "Compound interest", color: "teal.6" },
-                    ]}
-                    curveType="linear"
-                    valueFormatter={(value) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value)}
-                    xAxisLabel="Years"
-                    yAxisLabel="Amount"
-                    yAxisProps={{ tickFormatter: (value) => new Intl.NumberFormat("en-US", { notation: "compact" }).format(value) }}
-                />
+                <ChartArea yearly={yearly} goal={goal} />
             </AppShell.Main>
             <AppShell.Aside p="md">Aside</AppShell.Aside>
             <AppShell.Footer p="md">Footer</AppShell.Footer>

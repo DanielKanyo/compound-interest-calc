@@ -1,6 +1,7 @@
 import { AreaChart } from "@mantine/charts";
 import "@mantine/charts/styles.css";
-import { Card, Flex, Group, NumberFormatter, Text } from "@mantine/core";
+import { Avatar, Card, Flex, Group, NumberFormatter, Text } from "@mantine/core";
+import { IconPigMoney, IconTrendingUp } from "@tabler/icons-react";
 
 import { Yearly } from "../Types/Yearly";
 
@@ -16,20 +17,34 @@ export const ChartArea = ({ yearly, goal }: ChartAreaProps) => {
     return (
         <>
             <Group gap="md" mb="xs">
-                <Card shadow="sm" pt={20} pb={12} px="xl" radius="md" bg="teal">
-                    <Flex direction="column">
-                        <Text c="gray.3">Total Savings</Text>
-                        <Text fz={36} c="white" mt={-4}>
-                            <NumberFormatter value={totalSavings} thousandSeparator=" " decimalScale={0} />
-                        </Text>
+                <Card shadow="sm" pt={20} pb={12} px="lg" radius="md" bg="teal">
+                    <Flex gap="lg">
+                        <Flex align="center">
+                            <Avatar variant="filled" radius="md" size={60} mt={-10} color="teal.9">
+                                <IconTrendingUp size="2rem" />
+                            </Avatar>
+                        </Flex>
+                        <Flex direction="column" me={5}>
+                            <Text c="gray.3">Total Savings</Text>
+                            <Text fz={36} c="white" mt={-4}>
+                                <NumberFormatter value={totalSavings} thousandSeparator=" " decimalScale={0} />
+                            </Text>
+                        </Flex>
                     </Flex>
                 </Card>
-                <Card shadow="sm" pt={20} pb={12} px="xl" radius="md" bg="blue">
-                    <Flex direction="column">
-                        <Text c="gray.3">Total Contributions</Text>
-                        <Text fz={36} c="white" mt={-4}>
-                            <NumberFormatter value={totalContributions} thousandSeparator=" " decimalScale={0} />
-                        </Text>
+                <Card shadow="sm" pt={20} pb={12} px="lg" radius="md" bg="blue">
+                    <Flex gap="lg">
+                        <Flex align="center">
+                            <Avatar variant="filled" radius="md" size={60} mt={-10} color="blue.9">
+                                <IconPigMoney size="2rem" />
+                            </Avatar>
+                        </Flex>
+                        <Flex direction="column" me={5}>
+                            <Text c="gray.3">Total Contributions</Text>
+                            <Text fz={36} c="white" mt={-4}>
+                                <NumberFormatter value={totalContributions} thousandSeparator=" " decimalScale={0} />
+                            </Text>
+                        </Flex>
                     </Flex>
                 </Card>
             </Group>
@@ -44,7 +59,7 @@ export const ChartArea = ({ yearly, goal }: ChartAreaProps) => {
                     { name: "value", label: "Compound interest", color: "teal" },
                 ]}
                 curveType="linear"
-                valueFormatter={(value) => new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(value)}
+                valueFormatter={(value) => new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value)}
                 xAxisLabel="Years"
                 yAxisLabel="Amount"
                 yAxisProps={{ tickFormatter: (value) => new Intl.NumberFormat("en-US", { notation: "compact" }).format(value) }}

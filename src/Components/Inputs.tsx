@@ -41,7 +41,7 @@ export const Inputs = ({
     return (
         <>
             <Card shadow="sm" padding="lg" radius="md" withBorder>
-                <Flex gap="lg" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
+                <Flex gap="md" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
                     <Tooltip
                         label='"Initial Investment" refers to the starting amount of money invested before any additional contributions or interest growth occurs in a compound interest calculation.'
                         color="indigo"

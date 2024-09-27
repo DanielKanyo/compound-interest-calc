@@ -8,7 +8,8 @@
         "build": "tsc -b && vite build",
         "lint": "eslint .",
         "preview": "vite preview",
-        "prettier": "npx prettier --write ."
+        "prettier": "npx prettier --write .",
+        "deploy": "npm run build && firebase deploy"
     },
     "dependencies": {
         "@mantine/charts": "^7.13.0",
@@ -16,6 +17,7 @@
         "@mantine/form": "^7.13.0",
         "@mantine/hooks": "^7.13.0",
         "@tabler/icons-react": "^3.17.0",
+        "firebase": "^10.13.2",
         "react": "^18.3.1",
         "react-dom": "^18.3.1",
         "recharts": "^2.13.0-alpha.5"

@@ -1,7 +1,7 @@
 import { AreaChart } from "@mantine/charts";
 import "@mantine/charts/styles.css";
 import { Avatar, Card, Flex, Group, Text } from "@mantine/core";
-import { IconPigMoney, IconTrendingUp } from "@tabler/icons-react";
+import { IconCoins, IconPigMoney, IconTrendingUp } from "@tabler/icons-react";
 
 import { Yearly } from "../Types/Yearly";
 
@@ -18,7 +18,7 @@ type StatCardProps = {
 };
 
 const StatCard = ({ title, value, icon: Icon, color }: StatCardProps) => (
-    <Card shadow="sm" pt={20} pb={12} px="lg" radius="md" bg={color}>
+    <Card shadow="sm" pt={16} pb={8} px="lg" radius="md" bg={color}>
         <Flex gap="lg">
             <Flex align="center">
                 <Avatar variant="filled" radius="md" size={55} mt={-10} color={`${color}.9`}>
@@ -41,12 +41,13 @@ export const ChartArea = ({ yearly, goal }: ChartAreaProps) => {
 
     return (
         <>
-            <Group gap="md" mb="xs">
+            <Group gap="md" mb="xs" grow>
                 <StatCard title="Total Savings" value={totalSavings} icon={IconTrendingUp} color="teal" />
                 <StatCard title="Total Contributions" value={totalContributions} icon={IconPigMoney} color="blue" />
+                <StatCard title="Total Interest" value={totalSavings - totalContributions} icon={IconCoins} color="gray" />
             </Group>
             <AreaChart
-                h="calc(100vh - 264px)"
+                h="calc(100vh - 256px)"
                 data={yearly}
                 withLegend
                 tickLine="xy"

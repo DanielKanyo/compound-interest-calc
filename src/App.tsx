@@ -22,6 +22,7 @@ export const App = () => {
     const [increaseInAnnualContributions, setIncreaseInAnnualContributions] = useState<number | string>(0);
     const [endOfContributions, setEndOfContributions] = useState<number | string>("");
     const [goal, setGoal] = useState<number | string>("");
+    const [currency, setCurrency] = useState<string>("");
 
     const calcCompoundInterest = (
         initialInvestment: number | string,
@@ -111,7 +112,7 @@ export const App = () => {
             padding="md"
         >
             <AppShell.Header px="lg">
-                <Header opened={opened} toggle={toggle} />
+                <Header navbarOpened={opened} toggle={toggle} currency={currency} setCurrency={setCurrency} />
             </AppShell.Header>
             <AppShell.Navbar>
                 <AppShell.Section grow component={ScrollArea}>
@@ -136,7 +137,7 @@ export const App = () => {
                 </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
-                <ChartArea yearly={yearly} goal={goal} />
+                <ChartArea yearly={yearly} goal={goal} currency={currency} />
             </AppShell.Main>
             <AppShell.Aside p="md">Aside</AppShell.Aside>
             <AppShell.Footer>

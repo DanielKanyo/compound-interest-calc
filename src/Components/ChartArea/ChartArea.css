@@ -5,3 +5,7 @@ svg line {
 svg .recharts-tooltip-cursor {
     shape-rendering: crispEdges;
 }
+
+.currency-symbol {
+    margin-right: 4px;
+}

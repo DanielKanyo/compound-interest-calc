@@ -40,7 +40,7 @@ export const Inputs = ({
 }: InputsProps) => {
     return (
         <>
-            <Card shadow="sm" padding="lg" radius="md" withBorder>
+            <Card shadow="sm" padding="lg" radius="md" withBorder m="md">
                 <Flex gap="md" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
                     <Tooltip
                         label='"Initial Investment" refers to the starting amount of money invested before any additional contributions or interest growth occurs in a compound interest calculation.'
@@ -127,7 +127,7 @@ export const Inputs = ({
                     </Tooltip>
                 </Flex>
             </Card>
-            <Card shadow="sm" padding="lg" radius="md" withBorder mt="md">
+            <Card shadow="sm" padding="lg" radius="md" withBorder m="md">
                 <Flex gap="lg" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
                     <Tooltip
                         label='"Inflation Rate" refers to the percentage increase in the general price level of goods and services over time, which can reduce the real value of returns in a compound interest investment.'

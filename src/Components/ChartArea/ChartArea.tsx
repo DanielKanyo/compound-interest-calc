@@ -3,7 +3,8 @@ import "@mantine/charts/styles.css";
 import { Avatar, Card, Flex, Group, Text } from "@mantine/core";
 import { IconCoins, IconPigMoney, IconTrendingUp } from "@tabler/icons-react";
 
-import { Yearly } from "../Types/Yearly";
+import { Yearly } from "../../Types/Yearly";
+import "./ChartArea.css";
 
 type ChartAreaProps = {
     yearly: Yearly[];
@@ -18,16 +19,18 @@ type StatCardProps = {
 };
 
 const StatCard = ({ title, value, icon: Icon, color }: StatCardProps) => (
-    <Card shadow="sm" pt={16} pb={8} px="lg" radius="md" bg={color}>
+    <Card shadow="sm" p="lg" radius="md" bg={color}>
         <Flex gap="lg">
             <Flex align="center">
-                <Avatar variant="filled" radius="md" size={55} mt={-10} color={`${color}.9`}>
+                <Avatar variant="filled" radius="md" size={55} color={`${color}.9`}>
                     <Icon size="2rem" />
                 </Avatar>
             </Flex>
-            <Flex direction="column" me={5}>
-                <Text c="gray.3">{title}</Text>
-                <Text fz={32} c="white" mt={-4}>
+            <Flex direction="column" justify="center">
+                <Text c="gray.3" lh={1}>
+                    {title}
+                </Text>
+                <Text fz={32} c="white" lh={1} h={28} mt={6}>
                     {new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value)}
                 </Text>
             </Flex>
@@ -47,10 +50,10 @@ export const ChartArea = ({ yearly, goal }: ChartAreaProps) => {
                 <StatCard title="Total Interest" value={totalSavings - totalContributions} icon={IconCoins} color="gray" />
             </Group>
             <AreaChart
-                h="calc(100vh - 256px)"
+                h="calc(100vh - 257px)"
                 data={yearly}
                 withLegend
-                tickLine="xy"
+                tickLine="y"
                 dataKey="year"
                 series={[
                     { name: "contribution", label: "Contribution", color: "blue" },
@@ -61,7 +64,7 @@ export const ChartArea = ({ yearly, goal }: ChartAreaProps) => {
                 xAxisLabel="Years"
                 yAxisLabel="Amount"
                 yAxisProps={{ tickFormatter: (value) => new Intl.NumberFormat("en-US", { notation: "compact" }).format(value) }}
-                referenceLines={goal ? [{ y: goal, label: "Goal" }] : []}
+                referenceLines={goal ? [{ y: goal, label: "Goal", color: "violet.3" }] : []}
             />
         </>
     );

@@ -1,0 +1,7 @@
+svg line {
+    shape-rendering: crispEdges;
+}
+
+svg .recharts-tooltip-cursor {
+    shape-rendering: crispEdges;
+}

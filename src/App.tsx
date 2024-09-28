@@ -4,7 +4,8 @@ import { AppShell, ScrollArea } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { useDisclosure } from "@mantine/hooks";
 
-import { ChartArea } from "./Components/ChartArea";
+import { ChartArea } from "./Components/ChartArea/ChartArea";
+import { Footer } from "./Components/Footer";
 import { Header } from "./Components/Header";
 import { Inputs } from "./Components/Inputs";
 import { Monthly } from "./Types/Monthly";
@@ -109,10 +110,10 @@ export const App = () => {
             transitionDuration={0}
             padding="md"
         >
-            <AppShell.Header>
+            <AppShell.Header px="lg">
                 <Header opened={opened} toggle={toggle} />
             </AppShell.Header>
-            <AppShell.Navbar p="md">
+            <AppShell.Navbar>
                 <AppShell.Section grow component={ScrollArea}>
                     <Inputs
                         initialInvestment={initialInvestment}
@@ -138,7 +139,9 @@ export const App = () => {
                 <ChartArea yearly={yearly} goal={goal} />
             </AppShell.Main>
             <AppShell.Aside p="md">Aside</AppShell.Aside>
-            <AppShell.Footer p="md">Footer</AppShell.Footer>
+            <AppShell.Footer>
+                <Footer />
+            </AppShell.Footer>
         </AppShell>
     );
 };

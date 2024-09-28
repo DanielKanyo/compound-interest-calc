@@ -1,4 +1,16 @@
-import { ActionIcon, Burger, Group, Image, useComputedColorScheme, useMantineColorScheme, Text, Modal, Autocomplete } from "@mantine/core";
+import {
+    ActionIcon,
+    Burger,
+    Group,
+    Image,
+    useComputedColorScheme,
+    useMantineColorScheme,
+    Text,
+    Modal,
+    Autocomplete,
+    Switch,
+    Flex,
+} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSun, IconMoon, IconQuestionMark, IconSettings } from "@tabler/icons-react";
 
@@ -9,9 +21,11 @@ type HeaderProps = {
     toggle: () => void;
     currency: string;
     setCurrency: (value: string) => void;
+    prefixChecked: boolean;
+    setPrefixChecked: (value: boolean) => void;
 };
 
-export const Header = ({ navbarOpened, toggle, currency, setCurrency }: HeaderProps) => {
+export const Header = ({ navbarOpened, toggle, currency, setCurrency, prefixChecked, setPrefixChecked }: HeaderProps) => {
     const { setColorScheme } = useMantineColorScheme({ keepTransitions: true });
     const computedColorScheme = useComputedColorScheme("light", { getInitialValueInEffect: true });
     const [modalOpened, { open, close }] = useDisclosure(false);
@@ -58,6 +72,14 @@ export const Header = ({ navbarOpened, toggle, currency, setCurrency }: HeaderPr
                     onChange={(event) => setCurrency(event)}
                     value={currency}
                 />
+                <Flex justify="flex-end" mt="md">
+                    <Switch
+                        checked={prefixChecked}
+                        onChange={(event) => setPrefixChecked(event.currentTarget.checked)}
+                        labelPosition="left"
+                        label="Prefix"
+                    />
+                </Flex>
             </Modal>
         </>
     );

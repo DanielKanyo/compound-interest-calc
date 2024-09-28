@@ -6,6 +6,10 @@ svg .recharts-tooltip-cursor {
     shape-rendering: crispEdges;
 }
 
-.currency-symbol {
-    margin-right: 4px;
+.currency-symbol.prefix {
+    margin-right: 5px;
+}
+
+.currency-symbol.suffix {
+    margin-left: 5px;
 }

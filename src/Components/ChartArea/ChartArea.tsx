@@ -10,6 +10,7 @@ type ChartAreaProps = {
     yearly: Yearly[];
     goal: number | string;
     currency: string;
+    prefixChecked: boolean;
 };
 
 type StatCardProps = {
@@ -18,9 +19,10 @@ type StatCardProps = {
     icon: React.ElementType;
     color: string;
     currency: string;
+    prefixChecked: boolean;
 };
 
-const StatCard = ({ title, value, icon: Icon, color, currency }: StatCardProps) => (
+const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked }: StatCardProps) => (
     <Card shadow="sm" p="lg" radius="md" bg={color}>
         <Flex gap="lg">
             <Flex align="center">
@@ -33,29 +35,45 @@ const StatCard = ({ title, value, icon: Icon, color, currency }: StatCardProps) 
                     {title}
                 </Text>
                 <Text fz={32} c="white" lh={1}>
-                    {currency && <span className="currency-symbol">{currency}</span>}
+                    {currency && prefixChecked && <span className="currency-symbol prefix">{currency}</span>}
                     {new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value)}
+                    {currency && !prefixChecked && <span className="currency-symbol suffix">{currency}</span>}
                 </Text>
             </Flex>
         </Flex>
     </Card>
 );
 
-export const ChartArea = ({ yearly, goal, currency }: ChartAreaProps) => {
+export const ChartArea = ({ yearly, goal, currency, prefixChecked }: ChartAreaProps) => {
     const totalSavings = yearly.length ? yearly[yearly.length - 1].value : 0;
     const totalContributions = yearly.length ? yearly[yearly.length - 1].contribution : 0;
 
     return (
         <>
             <Group gap="md" mb="xs" grow>
-                <StatCard title="Total Savings" value={totalSavings} icon={IconTrendingUp} color="teal" currency={currency} />
-                <StatCard title="Total Contributions" value={totalContributions} icon={IconPigMoney} color="blue" currency={currency} />
+                <StatCard
+                    title="Total Savings"
+                    value={totalSavings}
+                    icon={IconTrendingUp}
+                    color="teal"
+                    currency={currency}
+                    prefixChecked={prefixChecked}
+                />
+                <StatCard
+                    title="Total Contributions"
+                    value={totalContributions}
+                    icon={IconPigMoney}
+                    color="blue"
+                    currency={currency}
+                    prefixChecked={prefixChecked}
+                />
                 <StatCard
                     title="Total Interest"
                     value={totalSavings - totalContributions}
                     icon={IconCoins}
                     color="gray"
                     currency={currency}
+                    prefixChecked={prefixChecked}
                 />
             </Group>
             <AreaChart
@@ -70,12 +88,18 @@ export const ChartArea = ({ yearly, goal, currency }: ChartAreaProps) => {
                 ]}
                 curveType="linear"
                 valueFormatter={(value) => {
-                    return `${currency}${new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value)}`;
+                    const number = new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value);
+
+                    if (prefixChecked) {
+                        return `${currency}${number}`;
+                    }
+
+                    return `${number}${currency}`;
                 }}
                 xAxisLabel="Years"
                 yAxisLabel={currency ? `Amount (${currency})` : "Amount"}
                 yAxisProps={{ tickFormatter: (value) => new Intl.NumberFormat("en-US", { notation: "compact" }).format(value) }}
-                referenceLines={goal ? [{ y: goal, label: "Goal", color: "violet.3" }] : []}
+                referenceLines={goal ? [{ y: goal, label: "Goal", color: "violet.4" }] : []}
             />
         </>
     );

@@ -4,6 +4,7 @@ import { AppShell, ScrollArea } from "@mantine/core";
 import "@mantine/core/styles.css";
 import { useDisclosure } from "@mantine/hooks";
 
+import { Breakdown } from "./Components/Breakdown/Breakdown";
 import { ChartArea } from "./Components/ChartArea/ChartArea";
 import { Footer } from "./Components/Footer";
 import { Header } from "./Components/Header";
@@ -23,6 +24,7 @@ export const App = () => {
     const [endOfContributions, setEndOfContributions] = useState<number | string>("");
     const [goal, setGoal] = useState<number | string>("");
     const [currency, setCurrency] = useState<string>("");
+    const [prefixChecked, setPrefixChecked] = useState<boolean>(true);
 
     const calcCompoundInterest = (
         initialInvestment: number | string,
@@ -46,20 +48,20 @@ export const App = () => {
         let value = totalContribution;
         let yearCounter = 0;
 
-        const monthy: Monthly[] = [{ month: 0, contribution: totalContribution, value }];
+        const monthly: Monthly[] = [{ month: 0, contribution: totalContribution, value }];
         const yearly: Yearly[] = [{ year: yearCounter.toString(), contribution: totalContribution, value }];
 
         for (let i = 1; i <= numOfYears * numOfMonthsInOneYear; i++) {
             totalContribution += monthlyContributionAmount;
 
             if (i === 1) {
-                monthy.push({ month: i, contribution: totalContribution, value: tmp });
+                monthly.push({ month: i, contribution: totalContribution, value: tmp });
 
                 value += tmp;
             } else {
                 value = tmp * (1 + (rate - inflation) / 12) + monthlyContributionAmount;
 
-                monthy.push({ month: i, contribution: totalContribution, value });
+                monthly.push({ month: i, contribution: totalContribution, value });
 
                 if (i % 12 === 0) {
                     ++yearCounter;
@@ -79,10 +81,10 @@ export const App = () => {
             }
         }
 
-        return { monthy, yearly };
+        return { monthly, yearly };
     };
 
-    const { yearly } = useMemo(() => {
+    const { yearly, monthly } = useMemo(() => {
         return calcCompoundInterest(
             initialInvestment,
             monthlyContribution,
@@ -107,12 +109,19 @@ export const App = () => {
             header={{ height: 60 }}
             footer={{ height: 60 }}
             navbar={{ width: 410, breakpoint: "sm", collapsed: { mobile: !opened } }}
-            aside={{ width: 300, breakpoint: "md", collapsed: { desktop: false, mobile: true } }}
+            aside={{ width: 360, breakpoint: "md", collapsed: { desktop: false, mobile: true } }}
             transitionDuration={0}
             padding="md"
         >
             <AppShell.Header px="lg">
-                <Header navbarOpened={opened} toggle={toggle} currency={currency} setCurrency={setCurrency} />
+                <Header
+                    navbarOpened={opened}
+                    toggle={toggle}
+                    currency={currency}
+                    setCurrency={setCurrency}
+                    prefixChecked={prefixChecked}
+                    setPrefixChecked={setPrefixChecked}
+                />
             </AppShell.Header>
             <AppShell.Navbar>
                 <AppShell.Section grow component={ScrollArea}>
@@ -125,6 +134,8 @@ export const App = () => {
                         increaseInAnnualContributions={increaseInAnnualContributions}
                         endOfContributions={endOfContributions}
                         goal={goal}
+                        currency={currency}
+                        prefixChecked={prefixChecked}
                         setInitialInvestment={setInitialInvestment}
                         setMonthlyContribution={setMonthlyContribution}
                         setLengthOfTimeInYears={setLengthOfTimeInYears}
@@ -137,9 +148,11 @@ export const App = () => {
                 </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
-                <ChartArea yearly={yearly} goal={goal} currency={currency} />
+                <ChartArea yearly={yearly} goal={goal} currency={currency} prefixChecked={prefixChecked} />
             </AppShell.Main>
-            <AppShell.Aside p="md">Aside</AppShell.Aside>
+            <AppShell.Aside>
+                <Breakdown yearly={yearly} monthly={monthly} goal={goal} currency={currency} />
+            </AppShell.Aside>
             <AppShell.Footer>
                 <Footer />
             </AppShell.Footer>

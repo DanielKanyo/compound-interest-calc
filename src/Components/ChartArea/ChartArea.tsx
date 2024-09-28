@@ -33,7 +33,7 @@ const StatCard = ({ title, value, icon: Icon, color, currency }: StatCardProps) 
                     {title}
                 </Text>
                 <Text fz={32} c="white" lh={1}>
-                    <span className="currency-symbol">{currency}</span>
+                    {currency && <span className="currency-symbol">{currency}</span>}
                     {new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value)}
                 </Text>
             </Flex>

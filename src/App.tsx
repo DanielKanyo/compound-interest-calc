@@ -104,6 +104,24 @@ export const App = () => {
         endOfContributions,
     ]);
 
+    const goalYear: number | null = useMemo(() => {
+        if (goal) {
+            const index = yearly.findIndex((y) => y.value >= Number(goal));
+
+            if (index > 1) {
+                const current = yearly[index];
+                const prev = yearly[index - 1];
+                const annualGrowth = current.value - prev.value;
+
+                return Number(prev.year) + (Number(goal) - prev.value) / annualGrowth;
+            }
+
+            return null;
+        }
+
+        return null;
+    }, [yearly, goal]);
+
     return (
         <AppShell
             header={{ height: 60 }}
@@ -151,7 +169,7 @@ export const App = () => {
                 <ChartArea yearly={yearly} goal={goal} currency={currency} prefixChecked={prefixChecked} />
             </AppShell.Main>
             <AppShell.Aside>
-                <Breakdown yearly={yearly} monthly={monthly} goal={goal} currency={currency} />
+                <Breakdown yearly={yearly} monthly={monthly} goal={goal} goalYear={goalYear} currency={currency} />
             </AppShell.Aside>
             <AppShell.Footer>
                 <Footer />

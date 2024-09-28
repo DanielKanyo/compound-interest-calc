@@ -48,6 +48,16 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked }: ChartAreaPr
     const totalSavings = yearly.length ? yearly[yearly.length - 1].value : 0;
     const totalContributions = yearly.length ? yearly[yearly.length - 1].contribution : 0;
 
+    const valueWithPrefixOrSuffixFormatter = (value: number) => {
+        const number = new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value);
+
+        if (prefixChecked) {
+            return `${currency}${number}`;
+        }
+
+        return `${number}${currency}`;
+    };
+
     return (
         <>
             <Group gap="md" mb="xs" grow>
@@ -84,22 +94,14 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked }: ChartAreaPr
                 dataKey="year"
                 series={[
                     { name: "contribution", label: "Contribution", color: "blue" },
-                    { name: "value", label: "Compound interest", color: "teal" },
+                    { name: "value", label: "Compound Interest", color: "teal" },
                 ]}
                 curveType="linear"
-                valueFormatter={(value) => {
-                    const number = new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value);
-
-                    if (prefixChecked) {
-                        return `${currency}${number}`;
-                    }
-
-                    return `${number}${currency}`;
-                }}
+                valueFormatter={(value) => valueWithPrefixOrSuffixFormatter(value)}
                 xAxisLabel="Years"
                 yAxisLabel={currency ? `Amount (${currency})` : "Amount"}
                 yAxisProps={{ tickFormatter: (value) => new Intl.NumberFormat("en-US", { notation: "compact" }).format(value) }}
-                referenceLines={goal ? [{ y: goal, label: "Goal", color: "violet.4" }] : []}
+                referenceLines={goal ? [{ y: goal, label: valueWithPrefixOrSuffixFormatter(Number(goal)), color: "violet.4" }] : []}
             />
         </>
     );

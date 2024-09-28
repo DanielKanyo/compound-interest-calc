@@ -119,6 +119,7 @@ export const Inputs = ({
                             rightSection={<IconHourglassHigh style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
                             clampBehavior="strict"
                             max={100}
+                            min={1}
                         />
                     </Tooltip>
                     <Tooltip
@@ -141,6 +142,9 @@ export const Inputs = ({
                             value={interestRate}
                             onChange={setInterestRate}
                             rightSection={<IconTrendingUp style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
+                            clampBehavior="strict"
+                            max={50}
+                            min={0}
                         />
                     </Tooltip>
                 </Flex>
@@ -165,6 +169,9 @@ export const Inputs = ({
                             value={inflationRate}
                             onChange={setInflationRate}
                             rightSection={<IconTrendingDown style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
+                            clampBehavior="strict"
+                            max={50}
+                            min={0}
                         />
                     </Tooltip>
                     <Tooltip
@@ -185,6 +192,9 @@ export const Inputs = ({
                             value={increaseInAnnualContributions}
                             onChange={setIncreaseInAnnualContributions}
                             rightSection={<IconPlus style={{ width: rem(22), height: rem(22), marginRight: 8 }} stroke={1.5} />}
+                            clampBehavior="strict"
+                            max={100}
+                            min={0}
                         />
                     </Tooltip>
                     <Tooltip

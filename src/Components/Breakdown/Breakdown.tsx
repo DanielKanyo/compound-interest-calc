@@ -9,9 +9,24 @@ type BreakdownProps = {
     monthly: Monthly[];
     goal: number | string;
     currency: string;
+    goalYear: number | null;
 };
 
-export const Breakdown = ({ yearly, monthly, goal, currency }: BreakdownProps) => {
+export const Breakdown = ({ yearly, monthly, goal, currency, goalYear }: BreakdownProps) => {
+    const extendYearlyWithGoalYear = (yearly: Yearly[], goalYear: number | null) => {
+        const newYearly = [...yearly];
+
+        if (goalYear && goal) {
+            const index = newYearly.findIndex((y) => Number(y.year) >= goalYear);
+
+            newYearly.splice(index, 0, { year: goalYear.toFixed(2), contribution: newYearly[index - 1].contribution, value: Number(goal) });
+        }
+
+        return newYearly;
+    };
+
+    const newYearly = extendYearlyWithGoalYear(yearly, goalYear);
+
     const ths = (
         <Table.Thead>
             <Table.Tr>
@@ -22,8 +37,8 @@ export const Breakdown = ({ yearly, monthly, goal, currency }: BreakdownProps) =
         </Table.Thead>
     );
 
-    const yearlyRows = yearly.map((d) => (
-        <Table.Tr key={d.year} data-goal={Number(goal) && d.value >= Number(goal)}>
+    const yearlyRows = newYearly.map((d) => (
+        <Table.Tr key={d.year} data-goal={Number(goal) && d.value == Number(goal)}>
             <Table.Td>{d.year}</Table.Td>
             <Table.Td>{new Intl.NumberFormat("en-US", { notation: "compact" }).format(d.contribution)}</Table.Td>
             <Table.Td>{new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(d.value)}</Table.Td>
@@ -31,7 +46,7 @@ export const Breakdown = ({ yearly, monthly, goal, currency }: BreakdownProps) =
     ));
 
     const monthlyRows = monthly.map((d) => (
-        <Table.Tr key={d.month} data-goal={Number(goal) && d.value >= Number(goal)}>
+        <Table.Tr key={d.month}>
             <Table.Td>{d.month}</Table.Td>
             <Table.Td>{new Intl.NumberFormat("en-US", { notation: "compact" }).format(d.contribution)}</Table.Td>
             <Table.Td>{new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(d.value)}</Table.Td>

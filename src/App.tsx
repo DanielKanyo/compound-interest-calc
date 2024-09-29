@@ -26,6 +26,9 @@ export const App = () => {
     const [currency, setCurrency] = useState<string>("");
     const [prefixChecked, setPrefixChecked] = useState<boolean>(true);
 
+    const [contributionColor, setContributionColor] = useState<string>("#228be6");
+    const [compInterestColor, setCompInterestColor] = useState<string>("#12b886");
+
     const calcCompoundInterest = (
         initialInvestment: number | string,
         monthlyContribution: number | string,
@@ -114,6 +117,7 @@ export const App = () => {
 
         // Find the year where the goal is reached
         const yearlyIndex = yearly.findIndex((y) => y.value >= goalValue);
+
         if (yearlyIndex > 0) {
             const currentYear = yearly[yearlyIndex];
             const previousYear = yearly[yearlyIndex - 1];
@@ -126,6 +130,7 @@ export const App = () => {
 
         // Find the month where the goal is reached
         const monthlyIndex = monthly.findIndex((m) => m.value >= goalValue);
+
         if (monthlyIndex > 0) {
             const currentMonth = monthly[monthlyIndex];
             const previousMonth = monthly[monthlyIndex - 1];
@@ -156,6 +161,10 @@ export const App = () => {
                     setCurrency={setCurrency}
                     prefixChecked={prefixChecked}
                     setPrefixChecked={setPrefixChecked}
+                    contributionColor={contributionColor}
+                    compInterestColor={compInterestColor}
+                    setContributionColor={setContributionColor}
+                    setCompInterestColor={setCompInterestColor}
                 />
             </AppShell.Header>
             <AppShell.Navbar>
@@ -171,6 +180,7 @@ export const App = () => {
                         goal={goal}
                         currency={currency}
                         prefixChecked={prefixChecked}
+                        compInterestColor={compInterestColor}
                         setInitialInvestment={setInitialInvestment}
                         setMonthlyContribution={setMonthlyContribution}
                         setLengthOfTimeInYears={setLengthOfTimeInYears}
@@ -183,13 +193,20 @@ export const App = () => {
                 </AppShell.Section>
             </AppShell.Navbar>
             <AppShell.Main>
-                <ChartArea yearly={yearly} goal={goal} currency={currency} prefixChecked={prefixChecked} />
+                <ChartArea
+                    yearly={yearly}
+                    goal={goal}
+                    currency={currency}
+                    prefixChecked={prefixChecked}
+                    contributionColor={contributionColor}
+                    compInterestColor={compInterestColor}
+                />
             </AppShell.Main>
             <AppShell.Aside>
                 <Breakdown yearly={yearly} monthly={monthly} goal={goal} goalYear={goalYear} goalMonth={goalMonth} currency={currency} />
             </AppShell.Aside>
             <AppShell.Footer>
-                <Footer />
+                <Footer compInterestColor={compInterestColor} />
             </AppShell.Footer>
         </AppShell>
     );

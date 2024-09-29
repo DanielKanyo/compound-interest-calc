@@ -21,6 +21,7 @@ type InputsProps = {
     goal: string | number;
     currency: string;
     prefixChecked: boolean;
+    compInterestColor: string;
     setInitialInvestment: (value: string | number) => void;
     setMonthlyContribution: (value: string | number) => void;
     setLengthOfTimeInYears: (value: string | number) => void;
@@ -42,6 +43,7 @@ export const Inputs = ({
     goal,
     currency,
     prefixChecked,
+    compInterestColor,
     setInitialInvestment,
     setMonthlyContribution,
     setLengthOfTimeInYears,
@@ -57,15 +59,17 @@ export const Inputs = ({
                 <Flex gap="md" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
                     <Tooltip
                         label='"Initial Investment" refers to the starting amount of money invested before any additional contributions or interest growth occurs in a compound interest calculation.'
-                        color="blue"
+                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
                         multiline
+                        radius="md"
                     >
                         <NumberInput
                             w="100%"
                             size="md"
+                            radius="md"
                             label="Initial Investment"
                             placeholder="Amount"
                             thousandSeparator=" "
@@ -79,15 +83,17 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Monthly Contribution" refers to the fixed amount of money added to the investment each month, which accumulates alongside the compound interest over time.'
-                        color="blue"
+                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
                         multiline
+                        radius="md"
                     >
                         <NumberInput
                             w="100%"
                             size="md"
+                            radius="md"
                             label="Monthly Contribution"
                             placeholder="Amount"
                             thousandSeparator=" "
@@ -101,15 +107,17 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Length of Time in Years" refers to the number of years an investment is allowed to grow with compound interest applied.'
-                        color="blue"
+                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
                         multiline
+                        radius="md"
                     >
                         <NumberInput
                             w="100%"
                             size="md"
+                            radius="md"
                             label="Length of Time in Years"
                             placeholder="Amount"
                             thousandSeparator=" "
@@ -124,15 +132,17 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Interest Rate" refers to the percentage at which your investment grows annually due to earned interest, compounded over time in a compound interest calculation.'
-                        color="blue"
+                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
                         multiline
+                        radius="md"
                     >
                         <NumberInput
                             w="100%"
                             size="md"
+                            radius="md"
                             label="Interest Rate"
                             placeholder="Amount"
                             thousandSeparator=" "
@@ -153,15 +163,17 @@ export const Inputs = ({
                 <Flex gap="lg" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
                     <Tooltip
                         label='"Inflation Rate" refers to the percentage increase in the general price level of goods and services over time, which can reduce the real value of returns in a compound interest investment.'
-                        color="blue"
+                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
                         multiline
+                        radius="md"
                     >
                         <NumberInput
                             w="100%"
                             size="md"
+                            radius="md"
                             label="Inflation Rate"
                             suffix="%"
                             placeholder="Amount"
@@ -176,15 +188,17 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Increase in Annual Contributions" refers to the additional amount added each year to the principal investment, which grows alongside the accumulated interest over time in a compound interest scenario.'
-                        color="blue"
+                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
                         multiline
+                        radius="md"
                     >
                         <NumberInput
                             w="100%"
                             size="md"
+                            radius="md"
                             label="Increase in Annual Contributions"
                             suffix="%"
                             placeholder="Amount"
@@ -199,15 +213,17 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"End of Contributions" refers to the point in time when additional investments or deposits into the account stop, while the existing balance may continue to grow with compound interest.'
-                        color="blue"
+                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
                         multiline
+                        radius="md"
                     >
                         <NumberInput
                             w="100%"
                             size="md"
+                            radius="md"
                             label="End of Contributions"
                             placeholder="Year"
                             thousandSeparator=" "
@@ -218,15 +234,17 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Goal" refers to the target amount of money you aim to reach through investments and compound interest over a specified period.'
-                        color="blue"
+                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
                         multiline
+                        radius="md"
                     >
                         <NumberInput
                             w="100%"
                             size="md"
+                            radius="md"
                             label="Goal"
                             placeholder="Amount"
                             prefix={prefixChecked ? currency : ""}

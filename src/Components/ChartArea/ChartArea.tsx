@@ -6,11 +6,24 @@ import { IconCoins, IconPigMoney, IconTrendingUp } from "@tabler/icons-react";
 import { Yearly } from "../../Types/Yearly";
 import "./ChartArea.css";
 
+const colorMap = new Map<string, string>([
+    ["#12b886", "teal"],
+    ["#228be6", "blue"],
+    ["#e64980", "pink"],
+    ["#343a40", "gray"],
+    ["#be4bdb", "grape"],
+    ["#fa5252", "red"],
+    ["#fd7e14", "orange"],
+    ["#4c6ef5", "indigo"],
+]);
+
 type ChartAreaProps = {
     yearly: Yearly[];
     goal: number | string;
     currency: string;
     prefixChecked: boolean;
+    contributionColor: string;
+    compInterestColor: string;
 };
 
 type StatCardProps = {
@@ -26,7 +39,7 @@ const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked }: 
     <Card shadow="sm" p="lg" radius="md" bg={color}>
         <Flex gap="lg">
             <Flex align="center">
-                <Avatar variant="filled" radius="md" size={55} color={`${color}.9`}>
+                <Avatar variant="filled" radius="md" size={55} color={`${colorMap.get(color)}.9`}>
                     <Icon size="2rem" />
                 </Avatar>
             </Flex>
@@ -44,7 +57,7 @@ const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked }: 
     </Card>
 );
 
-export const ChartArea = ({ yearly, goal, currency, prefixChecked }: ChartAreaProps) => {
+export const ChartArea = ({ yearly, goal, currency, prefixChecked, contributionColor, compInterestColor }: ChartAreaProps) => {
     const totalSavings = yearly.length ? yearly[yearly.length - 1].value : 0;
     const totalContributions = yearly.length ? yearly[yearly.length - 1].contribution : 0;
 
@@ -65,7 +78,7 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked }: ChartAreaPr
                     title="Total Savings"
                     value={totalSavings}
                     icon={IconTrendingUp}
-                    color="teal"
+                    color={compInterestColor}
                     currency={currency}
                     prefixChecked={prefixChecked}
                 />
@@ -73,7 +86,7 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked }: ChartAreaPr
                     title="Total Contributions"
                     value={totalContributions}
                     icon={IconPigMoney}
-                    color="blue"
+                    color={contributionColor}
                     currency={currency}
                     prefixChecked={prefixChecked}
                 />
@@ -81,7 +94,7 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked }: ChartAreaPr
                     title="Total Interest"
                     value={totalSavings - totalContributions}
                     icon={IconCoins}
-                    color="gray"
+                    color="#343a40"
                     currency={currency}
                     prefixChecked={prefixChecked}
                 />
@@ -93,8 +106,8 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked }: ChartAreaPr
                 tickLine="y"
                 dataKey="year"
                 series={[
-                    { name: "contribution", label: "Contribution", color: "blue" },
-                    { name: "value", label: "Compound Interest", color: "teal" },
+                    { name: "contribution", label: "Contribution", color: contributionColor },
+                    { name: "value", label: "Compound Interest", color: compInterestColor },
                 ]}
                 curveType="linear"
                 valueFormatter={(value) => valueWithPrefixOrSuffixFormatter(value)}

@@ -104,23 +104,40 @@ export const App = () => {
         endOfContributions,
     ]);
 
-    const goalYear: number | null = useMemo(() => {
-        if (goal) {
-            const index = yearly.findIndex((y) => y.value >= Number(goal));
+    const { goalYear, goalMonth } = useMemo(() => {
+        if (!goal) return { goalYear: null, goalMonth: null };
 
-            if (index > 1) {
-                const current = yearly[index];
-                const prev = yearly[index - 1];
-                const annualGrowth = current.value - prev.value;
+        const goalValue = Number(goal);
 
-                return Number(prev.year) + (Number(goal) - prev.value) / annualGrowth;
+        let calculatedGoalYear: number | null = null;
+        let calculatedGoalMonth: number | null = null;
+
+        // Find the year where the goal is reached
+        const yearlyIndex = yearly.findIndex((y) => y.value >= goalValue);
+        if (yearlyIndex > 0) {
+            const currentYear = yearly[yearlyIndex];
+            const previousYear = yearly[yearlyIndex - 1];
+            const yearlyGrowth = currentYear.value - previousYear.value;
+
+            if (yearlyGrowth > 0) {
+                calculatedGoalYear = Number(previousYear.year) + (goalValue - previousYear.value) / yearlyGrowth;
             }
-
-            return null;
         }
 
-        return null;
-    }, [yearly, goal]);
+        // Find the month where the goal is reached
+        const monthlyIndex = monthly.findIndex((m) => m.value >= goalValue);
+        if (monthlyIndex > 0) {
+            const currentMonth = monthly[monthlyIndex];
+            const previousMonth = monthly[monthlyIndex - 1];
+            const monthlyGrowth = currentMonth.value - previousMonth.value;
+
+            if (monthlyGrowth > 0) {
+                calculatedGoalMonth = previousMonth.month + (goalValue - previousMonth.value) / monthlyGrowth;
+            }
+        }
+
+        return { goalYear: calculatedGoalYear, goalMonth: calculatedGoalMonth };
+    }, [yearly, monthly, goal]);
 
     return (
         <AppShell
@@ -169,7 +186,7 @@ export const App = () => {
                 <ChartArea yearly={yearly} goal={goal} currency={currency} prefixChecked={prefixChecked} />
             </AppShell.Main>
             <AppShell.Aside>
-                <Breakdown yearly={yearly} monthly={monthly} goal={goal} goalYear={goalYear} currency={currency} />
+                <Breakdown yearly={yearly} monthly={monthly} goal={goal} goalYear={goalYear} goalMonth={goalMonth} currency={currency} />
             </AppShell.Aside>
             <AppShell.Footer>
                 <Footer />

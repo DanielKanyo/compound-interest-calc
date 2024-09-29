@@ -10,48 +10,62 @@ type BreakdownProps = {
     goal: number | string;
     currency: string;
     goalYear: number | null;
+    goalMonth: number | null;
 };
 
-export const Breakdown = ({ yearly, monthly, goal, currency, goalYear }: BreakdownProps) => {
-    const extendYearlyWithGoalYear = (yearly: Yearly[], goalYear: number | null) => {
-        const newYearly = [...yearly];
+// Define the table headers outside of the component to prevent re-creation
+const renderTableHeaders = (label: string, currency: string) => (
+    <Table.Thead>
+        <Table.Tr>
+            <Table.Th>{label}</Table.Th>
+            <Table.Th>Contribution {currency ? `(${currency})` : ""}</Table.Th>
+            <Table.Th>Value {currency ? `(${currency})` : ""}</Table.Th>
+        </Table.Tr>
+    </Table.Thead>
+);
 
-        if (goalYear && goal) {
-            const index = newYearly.findIndex((y) => Number(y.year) >= goalYear);
+export const Breakdown = ({ yearly, monthly, goal, currency, goalYear, goalMonth }: BreakdownProps) => {
+    // Define number formatters outside of map functions
+    const compactFormatter = new Intl.NumberFormat("en-US", { notation: "compact" });
+    const valueFormatter = new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 });
 
-            newYearly.splice(index, 0, { year: goalYear.toFixed(2), contribution: newYearly[index - 1].contribution, value: Number(goal) });
+    const extendDataWithGoal = <T extends { contribution: number; value: number }>(
+        data: T[],
+        goalValue: number | null,
+        goalKey: keyof T,
+        goalCompareValue: number | null
+    ): T[] => {
+        if (goalCompareValue && goalValue) {
+            const newData = [...data];
+            const index = newData.findIndex((item) => Number(item[goalKey]) >= goalCompareValue);
+
+            if (index > -1) {
+                const newItem = {
+                    ...newData[index - 1],
+                    [goalKey]: goalCompareValue.toFixed(2),
+                    value: Number(goalValue),
+                };
+
+                newData.splice(index, 0, newItem as T);
+            }
+
+            return newData;
         }
 
-        return newYearly;
+        return data;
     };
 
-    const newYearly = extendYearlyWithGoalYear(yearly, goalYear);
+    const newYearly = extendDataWithGoal(yearly, Number(goal), "year", goalYear);
+    const newMonthly = extendDataWithGoal(monthly, Number(goal), "month", goalMonth);
 
-    const ths = (
-        <Table.Thead>
-            <Table.Tr>
-                <Table.Th>Year</Table.Th>
-                <Table.Th>Contribution {currency ? `(${currency})` : ""}</Table.Th>
-                <Table.Th>Value {currency ? `(${currency})` : ""}</Table.Th>
+    const renderRows = <T extends { contribution: number; value: number }>(data: T[], labelKey: keyof T) =>
+        data.map((d, i) => (
+            <Table.Tr key={i} data-goal={Number(goal) && d.value === Number(goal)}>
+                <Table.Td>{String(d[labelKey])}</Table.Td>
+                <Table.Td>{compactFormatter.format(d.contribution)}</Table.Td>
+                <Table.Td>{valueFormatter.format(d.value)}</Table.Td>
             </Table.Tr>
-        </Table.Thead>
-    );
-
-    const yearlyRows = newYearly.map((d) => (
-        <Table.Tr key={d.year} data-goal={Number(goal) && d.value == Number(goal)}>
-            <Table.Td>{d.year}</Table.Td>
-            <Table.Td>{new Intl.NumberFormat("en-US", { notation: "compact" }).format(d.contribution)}</Table.Td>
-            <Table.Td>{new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(d.value)}</Table.Td>
-        </Table.Tr>
-    ));
-
-    const monthlyRows = monthly.map((d) => (
-        <Table.Tr key={d.month}>
-            <Table.Td>{d.month}</Table.Td>
-            <Table.Td>{new Intl.NumberFormat("en-US", { notation: "compact" }).format(d.contribution)}</Table.Td>
-            <Table.Td>{new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(d.value)}</Table.Td>
-        </Table.Tr>
-    ));
+        ));
 
     return (
         <ScrollArea h="100vh">
@@ -60,8 +74,8 @@ export const Breakdown = ({ yearly, monthly, goal, currency, goalYear }: Breakdo
                     <Accordion.Control>Yearly Breakdown</Accordion.Control>
                     <Accordion.Panel>
                         <Table>
-                            {ths}
-                            <Table.Tbody>{yearlyRows}</Table.Tbody>
+                            {renderTableHeaders("Year", currency)}
+                            <Table.Tbody>{renderRows(newYearly, "year")}</Table.Tbody>
                         </Table>
                     </Accordion.Panel>
                 </Accordion.Item>
@@ -69,8 +83,8 @@ export const Breakdown = ({ yearly, monthly, goal, currency, goalYear }: Breakdo
                     <Accordion.Control>Monthly Breakdown</Accordion.Control>
                     <Accordion.Panel>
                         <Table>
-                            {ths}
-                            <Table.Tbody>{monthlyRows}</Table.Tbody>
+                            {renderTableHeaders("Month", currency)}
+                            <Table.Tbody>{renderRows(newMonthly, "month")}</Table.Tbody>
                         </Table>
                     </Accordion.Panel>
                 </Accordion.Item>

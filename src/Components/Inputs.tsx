@@ -162,7 +162,7 @@ export const Inputs = ({
                 </Flex>
             </Card>
             <Card shadow="sm" padding="lg" radius="md" withBorder m="md">
-                <Flex gap="lg" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
+                <Flex gap="md" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
                     <Tooltip
                         label='"Inflation Rate" refers to the percentage increase in the general price level of goods and services over time, which can reduce the real value of returns in a compound interest investment.'
                         color={compInterestColor}

@@ -5,17 +5,7 @@ import { IconCoins, IconPigMoney, IconTrendingUp } from "@tabler/icons-react";
 
 import { Yearly } from "../../Types/Yearly";
 import "./ChartArea.css";
-
-const colorMap = new Map<string, string>([
-    ["#099268", "teal"],
-    ["#1971c2", "blue"],
-    ["#c2255c", "pink"],
-    ["#343a40", "gray"],
-    ["#9c36b5", "grape"],
-    ["#e03131", "red"],
-    ["#e8590c", "orange"],
-    ["#3b5bdb", "indigo"],
-]);
+import { ColorMap } from "../../Common/ColorMapping";
 
 type ChartAreaProps = {
     yearly: Yearly[];
@@ -36,10 +26,11 @@ type StatCardProps = {
 };
 
 const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked }: StatCardProps) => (
-    <Card shadow="sm" p="lg" radius="md" bg={color}>
-        <Flex gap="lg">
+    <Card shadow="sm" p="lg" radius="md" bg={color} className="stat-card">
+        <div className="circle" style={{ background: `var(--mantine-color-${ColorMap.get(color)}-9` }}></div>
+        <Flex gap="lg" style={{ zIndex: 1 }}>
             <Flex align="center">
-                <Avatar variant="filled" radius="md" size={55} color={`${colorMap.get(color)}.9`}>
+                <Avatar variant="filled" radius="md" size={55} color={`${ColorMap.get(color)}.9`}>
                     <Icon size="2rem" />
                 </Avatar>
             </Flex>

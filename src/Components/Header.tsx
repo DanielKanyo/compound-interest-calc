@@ -2,7 +2,6 @@ import {
     ActionIcon,
     Burger,
     Group,
-    Image,
     useComputedColorScheme,
     useMantineColorScheme,
     Text,
@@ -13,11 +12,10 @@ import {
     ColorInput,
     Tooltip,
     Container,
+    rem,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconSun, IconMoon, IconQuestionMark, IconSettings } from "@tabler/icons-react";
-
-import logo from "/favicon.png";
+import { IconSun, IconMoon, IconQuestionMark, IconSettings, IconChartArrowsVertical } from "@tabler/icons-react";
 
 type HeaderProps = {
     navbarOpened: boolean | undefined;
@@ -53,7 +51,7 @@ export const Header = ({
             <Group h="100%" justify="space-between">
                 <Group>
                     <Burger opened={navbarOpened} onClick={toggle} hiddenFrom="sm" size="sm" />
-                    <Image h={32} src={logo} />
+                    <IconChartArrowsVertical style={{ width: rem(38), height: rem(38) }} stroke={1.5} color={compInterestColor} />
                     <Text lh={1}>Compound Interest Calculator</Text>
                 </Group>
                 <Group gap="xs">

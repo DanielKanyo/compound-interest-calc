@@ -13,3 +13,17 @@ svg .recharts-tooltip-cursor {
 .currency-symbol.suffix {
     margin-left: 5px;
 }
+
+.stat-card {
+    position: relative;
+}
+
+.circle {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 200px;
+    top: -100px;
+    right: -100px;
+    opacity: .5;
+}

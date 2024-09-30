@@ -263,7 +263,7 @@ export const Inputs = ({
                 <CopyButton value={window.location.href}>
                     {({ copied, copy }) => (
                         <Tooltip
-                            label={copied ? "Copied" : "Copy URL with entered parameters"}
+                            label={copied ? "Copied" : "Copy URL with Entered Parameters"}
                             color={compInterestColor}
                             withArrow
                             radius="md"

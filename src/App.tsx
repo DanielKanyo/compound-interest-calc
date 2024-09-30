@@ -1,9 +1,9 @@
 import { useState, useMemo, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
-import { AppShell, ScrollArea } from "@mantine/core";
+import { AppShell, em, ScrollArea } from "@mantine/core";
 import "@mantine/core/styles.css";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 
 import { Breakdown } from "./Components/Breakdown/Breakdown";
 import { ChartArea } from "./Components/ChartArea/ChartArea";
@@ -14,6 +14,7 @@ import { Monthly } from "./Types/Monthly";
 import { Yearly } from "./Types/Yearly";
 
 export const App = () => {
+    const isMobile = useMediaQuery(`(max-width: ${em(1000)})`);
     const [searchParams, setSearchParams] = useSearchParams();
     const [opened, { toggle }] = useDisclosure();
 
@@ -196,6 +197,7 @@ export const App = () => {
                     compInterestColor={compInterestColor}
                     setContributionColor={setContributionColor}
                     setCompInterestColor={setCompInterestColor}
+                    isMobile={isMobile}
                 />
             </AppShell.Header>
             <AppShell.Navbar>
@@ -231,6 +233,7 @@ export const App = () => {
                     prefixChecked={prefixChecked}
                     contributionColor={contributionColor}
                     compInterestColor={compInterestColor}
+                    isMobile={isMobile}
                 />
             </AppShell.Main>
             <AppShell.Aside>

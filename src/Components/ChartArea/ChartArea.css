@@ -23,7 +23,16 @@ svg .recharts-tooltip-cursor {
     width: 200px;
     height: 200px;
     border-radius: 200px;
+}
+
+.circle1 {
     top: -100px;
     right: -100px;
     opacity: 0.5;
+}
+
+.circle2 {
+    top: -140px;
+    right: -60px;
+    opacity: 0.06;
 }

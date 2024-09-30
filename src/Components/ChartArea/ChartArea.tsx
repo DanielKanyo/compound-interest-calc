@@ -1,6 +1,6 @@
 import { AreaChart } from "@mantine/charts";
 import "@mantine/charts/styles.css";
-import { Avatar, Card, Flex, Group, Text } from "@mantine/core";
+import { Avatar, Card, Flex, Text } from "@mantine/core";
 import { IconCoins, IconPigMoney, IconTrendingUp } from "@tabler/icons-react";
 
 import { ColorMap } from "../../Common/ColorMapping";
@@ -14,6 +14,7 @@ type ChartAreaProps = {
     prefixChecked: boolean;
     contributionColor: string;
     compInterestColor: string;
+    isMobile: boolean | undefined;
 };
 
 type StatCardProps = {
@@ -23,11 +24,13 @@ type StatCardProps = {
     color: string;
     currency: string;
     prefixChecked: boolean;
+    isMobile: boolean | undefined;
 };
 
-const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked }: StatCardProps) => (
-    <Card shadow="sm" p="lg" radius="md" bg={color} className="stat-card">
-        <div className="circle" style={{ background: `var(--mantine-color-${ColorMap.get(color)}-9` }}></div>
+const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked, isMobile }: StatCardProps) => (
+    <Card shadow="sm" p={isMobile ? "sm" : "lg"} radius="md" bg={color} className="stat-card" w="100%">
+        <div className="circle circle1" style={{ background: `var(--mantine-color-${ColorMap.get(color)}-9` }}></div>
+        <div className="circle circle2" style={{ background: `var(--mantine-color-${ColorMap.get(color)}-2` }}></div>
         <Flex gap="lg" style={{ zIndex: 1 }}>
             <Flex align="center">
                 <Avatar variant="filled" radius="md" size={55} color={`${ColorMap.get(color)}.9`}>
@@ -38,7 +41,7 @@ const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked }: 
                 <Text c="gray.3" lh={1}>
                     {title}
                 </Text>
-                <Text fz={32} c="white" lh={1}>
+                <Text fz={isMobile ? 28 : 32} c="white" lh={1}>
                     {currency && prefixChecked && <span className="currency-symbol prefix">{currency}</span>}
                     {new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value)}
                     {currency && !prefixChecked && <span className="currency-symbol suffix">{currency}</span>}
@@ -48,7 +51,7 @@ const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked }: 
     </Card>
 );
 
-export const ChartArea = ({ yearly, goal, currency, prefixChecked, contributionColor, compInterestColor }: ChartAreaProps) => {
+export const ChartArea = ({ yearly, goal, currency, prefixChecked, contributionColor, compInterestColor, isMobile }: ChartAreaProps) => {
     const totalSavings = yearly.length ? yearly[yearly.length - 1].value : 0;
     const totalContributions = yearly.length ? yearly[yearly.length - 1].contribution : 0;
 
@@ -64,7 +67,14 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked, contributionC
 
     return (
         <>
-            <Group gap="md" mb="xs" grow>
+            <Flex
+                gap="md"
+                justify="flex-start"
+                align="flex-start"
+                direction="row"
+                wrap={isMobile ? "wrap" : "nowrap"}
+                mb={isMobile ? "lg" : "xs"}
+            >
                 <StatCard
                     title="Total Savings"
                     value={totalSavings}
@@ -72,6 +82,7 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked, contributionC
                     color={compInterestColor}
                     currency={currency}
                     prefixChecked={prefixChecked}
+                    isMobile={isMobile}
                 />
                 <StatCard
                     title="Total Contributions"
@@ -80,6 +91,7 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked, contributionC
                     color={contributionColor}
                     currency={currency}
                     prefixChecked={prefixChecked}
+                    isMobile={isMobile}
                 />
                 <StatCard
                     title="Total Interest"
@@ -88,10 +100,11 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked, contributionC
                     color="#343a40"
                     currency={currency}
                     prefixChecked={prefixChecked}
+                    isMobile={isMobile}
                 />
-            </Group>
+            </Flex>
             <AreaChart
-                h="calc(100vh - 257px)"
+                h={isMobile ? "calc(100vh - 441px)" : "calc(100vh - 257px)"}
                 data={yearly}
                 withLegend
                 tickLine="y"
@@ -102,7 +115,7 @@ export const ChartArea = ({ yearly, goal, currency, prefixChecked, contributionC
                 ]}
                 curveType="linear"
                 valueFormatter={(value) => valueWithPrefixOrSuffixFormatter(value)}
-                xAxisLabel="Years"
+                xAxisLabel={"Years"}
                 yAxisLabel={currency ? `Amount (${currency})` : "Amount"}
                 yAxisProps={{ tickFormatter: (value) => new Intl.NumberFormat("en-US", { notation: "compact" }).format(value) }}
                 referenceLines={goal ? [{ y: goal, label: valueWithPrefixOrSuffixFormatter(Number(goal)), color: "violet.4" }] : []}

@@ -1,3 +1,13 @@
+.input {
+    &:focus {
+        --input-bd: var(--mantine-color-dark-2);
+    }
+
+    &:focus-within {
+        --input-bd: var(--mantine-color-dark-2);
+    }
+}
+
 .label {
     opacity: 0.6;
     margin-bottom: 8px;

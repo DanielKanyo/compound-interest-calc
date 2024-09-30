@@ -25,5 +25,5 @@ svg .recharts-tooltip-cursor {
     border-radius: 200px;
     top: -100px;
     right: -100px;
-    opacity: .5;
+    opacity: 0.5;
 }

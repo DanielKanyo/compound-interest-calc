@@ -3,9 +3,9 @@ import "@mantine/charts/styles.css";
 import { Avatar, Card, Flex, Group, Text } from "@mantine/core";
 import { IconCoins, IconPigMoney, IconTrendingUp } from "@tabler/icons-react";
 
+import { ColorMap } from "../../Common/ColorMapping";
 import { Yearly } from "../../Types/Yearly";
 import "./ChartArea.css";
-import { ColorMap } from "../../Common/ColorMapping";
 
 type ChartAreaProps = {
     yearly: Yearly[];

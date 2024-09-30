@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { AppShell, ScrollArea } from "@mantine/core";
 import "@mantine/core/styles.css";
@@ -13,21 +14,51 @@ import { Monthly } from "./Types/Monthly";
 import { Yearly } from "./Types/Yearly";
 
 export const App = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
     const [opened, { toggle }] = useDisclosure();
 
-    const [initialInvestment, setInitialInvestment] = useState<number | string>(0);
-    const [monthlyContribution, setMonthlyContribution] = useState<number | string>(1000);
-    const [lengthOfTimeInYears, setLengthOfTimeInYears] = useState<number | string>(20);
-    const [interestRate, setInterestRate] = useState<number | string>(7);
-    const [inflationRate, setInflationRate] = useState<number | string>(0);
-    const [increaseInAnnualContributions, setIncreaseInAnnualContributions] = useState<number | string>(0);
-    const [endOfContributions, setEndOfContributions] = useState<number | string>("");
-    const [goal, setGoal] = useState<number | string>("");
-    const [currency, setCurrency] = useState<string>("");
+    const [initialInvestment, setInitialInvestment] = useState<number | string>(Number(searchParams.get("initialInvestment")) || 0);
+    const [monthlyContribution, setMonthlyContribution] = useState<number | string>(
+        Number(searchParams.get("monthlyContribution")) || 1000
+    );
+    const [lengthOfTimeInYears, setLengthOfTimeInYears] = useState<number | string>(Number(searchParams.get("lengthOfTimeInYears")) || 20);
+    const [interestRate, setInterestRate] = useState<number | string>(Number(searchParams.get("interestRate")) || 7);
+    const [inflationRate, setInflationRate] = useState<number | string>(Number(searchParams.get("inflationRate")) || 0);
+    const [increaseInAnnualContributions, setIncreaseInAnnualContributions] = useState<number | string>(
+        Number(searchParams.get("increaseInAnnualContributions")) || 0
+    );
+    const [endOfContributions, setEndOfContributions] = useState<number | string>(searchParams.get("endOfContributions") || "");
+    const [goal, setGoal] = useState<number | string>(searchParams.get("goal") || "");
+    const [currency, setCurrency] = useState<string>(searchParams.get("currency") || "");
     const [prefixChecked, setPrefixChecked] = useState<boolean>(true);
 
-    const [contributionColor, setContributionColor] = useState<string>("#228be6");
-    const [compInterestColor, setCompInterestColor] = useState<string>("#12b886");
+    const [contributionColor, setContributionColor] = useState<string>("#1971c2");
+    const [compInterestColor, setCompInterestColor] = useState<string>("#099268");
+
+    useEffect(() => {
+        setSearchParams({
+            initialInvestment: initialInvestment.toString(),
+            monthlyContribution: monthlyContribution.toString(),
+            lengthOfTimeInYears: lengthOfTimeInYears.toString(),
+            interestRate: interestRate.toString(),
+            inflationRate: inflationRate.toString(),
+            increaseInAnnualContributions: increaseInAnnualContributions.toString(),
+            endOfContributions: endOfContributions.toString(),
+            goal: goal.toString(),
+            currency,
+        });
+    }, [
+        initialInvestment,
+        monthlyContribution,
+        lengthOfTimeInYears,
+        interestRate,
+        inflationRate,
+        increaseInAnnualContributions,
+        endOfContributions,
+        goal,
+        currency,
+        setSearchParams,
+    ]);
 
     const calcCompoundInterest = (
         initialInvestment: number | string,

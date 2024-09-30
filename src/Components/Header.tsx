@@ -12,6 +12,7 @@ import {
     Flex,
     ColorInput,
     Tooltip,
+    Container,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconSun, IconMoon, IconQuestionMark, IconSettings } from "@tabler/icons-react";
@@ -56,7 +57,7 @@ export const Header = ({
                     <Text lh={1}>Compound Interest Calculator</Text>
                 </Group>
                 <Group gap="xs">
-                    <Tooltip label="About Compound Interest" color={compInterestColor} radius="md">
+                    <Tooltip label="About Compound Interest" color={compInterestColor} radius="md" withArrow>
                         <ActionIcon
                             component="a"
                             href="https://www.investopedia.com/terms/c/compoundinterest.asp"
@@ -69,7 +70,7 @@ export const Header = ({
                             <IconQuestionMark stroke={1.5} />
                         </ActionIcon>
                     </Tooltip>
-                    <Tooltip label="Toggle Color Scheme" color={compInterestColor} radius="md">
+                    <Tooltip label="Toggle Color Scheme" color={compInterestColor} radius="md" withArrow>
                         <ActionIcon
                             onClick={() => setColorScheme(computedColorScheme === "light" ? "dark" : "light")}
                             variant="default"
@@ -80,7 +81,7 @@ export const Header = ({
                             {computedColorScheme === "dark" ? <IconSun stroke={1.5} /> : <IconMoon stroke={1.5} />}
                         </ActionIcon>
                     </Tooltip>
-                    <Tooltip label="Settings" color={compInterestColor} radius="md">
+                    <Tooltip label="Settings" color={compInterestColor} radius="md" withArrow>
                         <ActionIcon onClick={open} variant="default" size="lg" aria-label="Toggle settings" radius="md">
                             <IconSettings stroke={1.1} />
                         </ActionIcon>
@@ -88,42 +89,47 @@ export const Header = ({
                 </Group>
             </Group>
             <Modal opened={modalOpened} onClose={close} title="Settings" centered radius="md">
-                <Autocomplete
-                    label="Currency"
-                    placeholder="Select or enter prefered currency..."
-                    data={["$", "€", "¥", "£", "₹"]}
-                    onChange={(event) => setCurrency(event)}
-                    value={currency}
-                />
-                <Flex justify="flex-end" mt="md">
-                    <Switch
-                        checked={prefixChecked}
-                        onChange={(event) => setPrefixChecked(event.currentTarget.checked)}
-                        labelPosition="left"
-                        label="Prefix"
+                <Container p="xs">
+                    <Autocomplete
+                        label="Currency"
+                        placeholder="Select or enter prefered currency..."
+                        data={["$", "€", "¥", "£", "₹"]}
+                        onChange={(event) => setCurrency(event)}
+                        value={currency}
                     />
-                </Flex>
+                    <Flex justify="flex-end" mt="md">
+                        <Switch
+                            checked={prefixChecked}
+                            onChange={(event) => setPrefixChecked(event.currentTarget.checked)}
+                            labelPosition="left"
+                            label="Prefix"
+                            disabled={!currency}
+                        />
+                    </Flex>
 
-                <Flex gap="md" mt="lg">
-                    <ColorInput
-                        placeholder="Pick color"
-                        label="Compound Interest Color"
-                        disallowInput
-                        withPicker={false}
-                        value={compInterestColor}
-                        swatches={["#12b886", "#228be6", "#e64980", "#be4bdb", "#fa5252", "#fd7e14", "#4c6ef5"]}
-                        onChange={setCompInterestColor}
-                    />
-                    <ColorInput
-                        placeholder="Pick color"
-                        label="Contribution Color"
-                        disallowInput
-                        withPicker={false}
-                        value={contributionColor}
-                        swatches={["#12b886", "#228be6", "#e64980", "#be4bdb", "#fa5252", "#fd7e14", "#4c6ef5"]}
-                        onChange={setContributionColor}
-                    />
-                </Flex>
+                    <Flex gap="md" mt="lg">
+                        <ColorInput
+                            placeholder="Pick color"
+                            label="Compound Interest Color"
+                            disallowInput
+                            withPicker={false}
+                            value={compInterestColor}
+                            swatches={["#099268", "#1971c2", "#c2255c", "#9c36b5", "#e03131", "#e8590c", "#3b5bdb"]}
+                            onChange={setCompInterestColor}
+                            withEyeDropper={false}
+                        />
+                        <ColorInput
+                            placeholder="Pick color"
+                            label="Contribution Color"
+                            disallowInput
+                            withPicker={false}
+                            value={contributionColor}
+                            swatches={["#099268", "#1971c2", "#c2255c", "#9c36b5", "#e03131", "#e8590c", "#3b5bdb"]}
+                            onChange={setContributionColor}
+                            withEyeDropper={false}
+                        />
+                    </Flex>
+                </Container>
             </Modal>
         </>
     );

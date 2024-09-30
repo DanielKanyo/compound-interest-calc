@@ -1,4 +1,4 @@
-import { Card, NumberInput, Flex, Tooltip, rem } from "@mantine/core";
+import { Card, NumberInput, Flex, Tooltip, rem, CopyButton, Button, Container } from "@mantine/core";
 import {
     IconHourglassHigh,
     IconFlag,
@@ -8,6 +8,8 @@ import {
     IconPlus,
     IconHandStop,
     IconTargetArrow,
+    IconCopy,
+    IconChecks,
 } from "@tabler/icons-react";
 
 type InputsProps = {
@@ -257,6 +259,26 @@ export const Inputs = ({
                     </Tooltip>
                 </Flex>
             </Card>
+            <Container m="md" p={0}>
+                <CopyButton value={window.location.href}>
+                    {({ copied, copy }) => (
+                        <Tooltip
+                            label={copied ? "Copied" : "Copy URL with entered parameters"}
+                            color={compInterestColor}
+                            withArrow
+                            radius="md"
+                        >
+                            <Button color={compInterestColor} onClick={copy} fullWidth>
+                                {copied ? (
+                                    <IconChecks style={{ width: rem(20), height: rem(20) }} />
+                                ) : (
+                                    <IconCopy style={{ width: rem(20), height: rem(20) }} />
+                                )}
+                            </Button>
+                        </Tooltip>
+                    )}
+                </CopyButton>
+            </Container>
         </>
     );
 };

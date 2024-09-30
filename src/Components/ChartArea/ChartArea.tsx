@@ -7,14 +7,14 @@ import { Yearly } from "../../Types/Yearly";
 import "./ChartArea.css";
 
 const colorMap = new Map<string, string>([
-    ["#12b886", "teal"],
-    ["#228be6", "blue"],
-    ["#e64980", "pink"],
+    ["#099268", "teal"],
+    ["#1971c2", "blue"],
+    ["#c2255c", "pink"],
     ["#343a40", "gray"],
-    ["#be4bdb", "grape"],
-    ["#fa5252", "red"],
-    ["#fd7e14", "orange"],
-    ["#4c6ef5", "indigo"],
+    ["#9c36b5", "grape"],
+    ["#e03131", "red"],
+    ["#e8590c", "orange"],
+    ["#3b5bdb", "indigo"],
 ]);
 
 type ChartAreaProps = {

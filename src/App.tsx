@@ -16,7 +16,8 @@ import { Yearly } from "./Types/Yearly";
 export const App = () => {
     const isMobile = useMediaQuery(`(max-width: ${em(1000)})`);
     const [searchParams, setSearchParams] = useSearchParams();
-    const [opened, { toggle }] = useDisclosure();
+    const [navbarOpened, navbarHandlers] = useDisclosure();
+    const [breakdownOpened, breakdownHandlers] = useDisclosure();
 
     const [initialInvestment, setInitialInvestment] = useState<number | string>(Number(searchParams.get("initialInvestment")) || 0);
     const [monthlyContribution, setMonthlyContribution] = useState<number | string>(
@@ -180,15 +181,17 @@ export const App = () => {
         <AppShell
             header={{ height: 60 }}
             footer={{ height: 60 }}
-            navbar={{ width: 410, breakpoint: "sm", collapsed: { mobile: !opened } }}
-            aside={{ width: 360, breakpoint: "md", collapsed: { desktop: false, mobile: true } }}
+            navbar={{ width: 410, breakpoint: "sm", collapsed: { mobile: !navbarOpened } }}
+            aside={{ width: 360, breakpoint: "md", collapsed: { desktop: false, mobile: !breakdownOpened } }}
             transitionDuration={0}
             padding="md"
         >
             <AppShell.Header px="lg">
                 <Header
-                    navbarOpened={opened}
-                    toggle={toggle}
+                    navbarOpened={navbarOpened}
+                    breakdownOpened={breakdownOpened}
+                    toggleNavbar={navbarHandlers.toggle}
+                    toggleBreakdown={breakdownHandlers.toggle}
                     currency={currency}
                     setCurrency={setCurrency}
                     prefixChecked={prefixChecked}
@@ -240,7 +243,17 @@ export const App = () => {
                 <Breakdown yearly={yearly} monthly={monthly} goal={goal} goalYear={goalYear} goalMonth={goalMonth} currency={currency} />
             </AppShell.Aside>
             <AppShell.Footer>
-                <Footer compInterestColor={compInterestColor} />
+                <Footer
+                    currency={currency}
+                    setCurrency={setCurrency}
+                    prefixChecked={prefixChecked}
+                    setPrefixChecked={setPrefixChecked}
+                    contributionColor={contributionColor}
+                    compInterestColor={compInterestColor}
+                    setContributionColor={setContributionColor}
+                    setCompInterestColor={setCompInterestColor}
+                    isMobile={isMobile}
+                />
             </AppShell.Footer>
         </AppShell>
     );

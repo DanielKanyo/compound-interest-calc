@@ -4,11 +4,31 @@ import { ActionIcon, Flex, Group, ThemeIcon, Tooltip } from "@mantine/core";
 import { useFullscreen } from "@mantine/hooks";
 import { IconArrowsMaximize, IconArrowsMinimize, IconBrandFacebook, IconBrandX } from "@tabler/icons-react";
 
+import { HeaderActions } from "./HeaderActions";
+
 type FooterProps = {
+    currency: string;
+    setCurrency: (value: string) => void;
+    prefixChecked: boolean;
+    setPrefixChecked: (value: boolean) => void;
+    contributionColor: string;
     compInterestColor: string;
+    setContributionColor: (value: string) => void;
+    setCompInterestColor: (value: string) => void;
+    isMobile: boolean | undefined;
 };
 
-export function Footer({ compInterestColor }: FooterProps) {
+export function Footer({
+    currency,
+    setCurrency,
+    prefixChecked,
+    setPrefixChecked,
+    contributionColor,
+    compInterestColor,
+    setContributionColor,
+    setCompInterestColor,
+    isMobile,
+}: FooterProps) {
     const { toggle, fullscreen } = useFullscreen();
 
     return (
@@ -29,11 +49,27 @@ export function Footer({ compInterestColor }: FooterProps) {
                     </TwitterShareButton>
                 </Tooltip>
             </Group>
-            <Tooltip label={fullscreen ? "Exit Fullscreen" : "Enter Fullscreen"} color={compInterestColor} radius="md" withArrow>
-                <ActionIcon variant="default" size="lg" aria-label="full-screen" onClick={toggle} radius="md">
-                    {fullscreen ? <IconArrowsMinimize size={20} stroke={1.5} /> : <IconArrowsMaximize size={20} stroke={1.5} />}
-                </ActionIcon>
-            </Tooltip>
+            <div>
+                {isMobile && (
+                    <HeaderActions
+                        currency={currency}
+                        setCurrency={setCurrency}
+                        prefixChecked={prefixChecked}
+                        setPrefixChecked={setPrefixChecked}
+                        contributionColor={contributionColor}
+                        compInterestColor={compInterestColor}
+                        setContributionColor={setContributionColor}
+                        setCompInterestColor={setCompInterestColor}
+                    />
+                )}
+                {!isMobile && (
+                    <Tooltip label={fullscreen ? "Exit Fullscreen" : "Enter Fullscreen"} color={compInterestColor} radius="md" withArrow>
+                        <ActionIcon variant="default" size="lg" aria-label="full-screen" onClick={toggle} radius="md">
+                            {fullscreen ? <IconArrowsMinimize size={20} stroke={1.5} /> : <IconArrowsMaximize size={20} stroke={1.5} />}
+                        </ActionIcon>
+                    </Tooltip>
+                )}
+            </div>
         </Flex>
     );
 }

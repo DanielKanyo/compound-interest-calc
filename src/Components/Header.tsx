@@ -34,10 +34,26 @@ export const Header = ({
     setCompInterestColor,
     isMobile,
 }: HeaderProps) => {
+    const handleHavbarBurgerClick = () => {
+        if (breakdownOpened) {
+            toggleBreakdown();
+        }
+
+        toggleNavbar();
+    };
+
+    const handleBreakdownBurgerClick = () => {
+        if (navbarOpened) {
+            toggleNavbar();
+        }
+
+        toggleBreakdown();
+    };
+
     return (
         <Group h="100%" justify="space-between">
             <Group>
-                <Burger opened={navbarOpened} onClick={toggleNavbar} hiddenFrom="md" size="sm" />
+                <Burger opened={navbarOpened} onClick={handleHavbarBurgerClick} hiddenFrom="md" size="sm" />
                 <IconChartArrowsVertical style={{ width: rem(38), height: rem(38) }} stroke={1.5} color={compInterestColor} />
                 {isMobile ? (
                     <Text fz={16} lh={1}>
@@ -59,7 +75,7 @@ export const Header = ({
                     setCompInterestColor={setCompInterestColor}
                 />
             )}
-            <Burger opened={breakdownOpened} onClick={toggleBreakdown} hiddenFrom="md" size="sm" />
+            <Burger opened={breakdownOpened} onClick={handleBreakdownBurgerClick} hiddenFrom="md" size="sm" />
         </Group>
     );
 };

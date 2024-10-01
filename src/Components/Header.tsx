@@ -28,6 +28,7 @@ type HeaderProps = {
     compInterestColor: string;
     setContributionColor: (value: string) => void;
     setCompInterestColor: (value: string) => void;
+    isMobile: boolean | undefined;
 };
 
 export const Header = ({
@@ -41,6 +42,7 @@ export const Header = ({
     compInterestColor,
     setContributionColor,
     setCompInterestColor,
+    isMobile,
 }: HeaderProps) => {
     const { setColorScheme } = useMantineColorScheme({ keepTransitions: true });
     const computedColorScheme = useComputedColorScheme("light", { getInitialValueInEffect: true });
@@ -52,7 +54,7 @@ export const Header = ({
                 <Group>
                     <Burger opened={navbarOpened} onClick={toggle} hiddenFrom="sm" size="sm" />
                     <IconChartArrowsVertical style={{ width: rem(38), height: rem(38) }} stroke={1.5} color={compInterestColor} />
-                    <Text lh={1}>Compound Interest Calculator</Text>
+                    {!isMobile && <Text lh={1}>Compound Interest Calculator</Text>}
                 </Group>
                 <Group gap="xs">
                     <Tooltip label="About Compound Interest" color={compInterestColor} radius="md" withArrow>
@@ -108,7 +110,7 @@ export const Header = ({
                     <Flex gap="md" mt="lg">
                         <ColorInput
                             placeholder="Pick color"
-                            label="Compound Interest Color"
+                            label="Color #1"
                             disallowInput
                             withPicker={false}
                             value={compInterestColor}
@@ -118,7 +120,7 @@ export const Header = ({
                         />
                         <ColorInput
                             placeholder="Pick color"
-                            label="Contribution Color"
+                            label="Color #2"
                             disallowInput
                             withPicker={false}
                             value={contributionColor}

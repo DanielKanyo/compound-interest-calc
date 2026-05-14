@@ -38,11 +38,11 @@ const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked, is
                     <Icon size="2rem" />
                 </Avatar>
             </Flex>
-            <Flex direction="column" justify="space-around">
-                <Text c="gray.3" lh={1}>
+            <Flex direction="column" justify="space-around" style={{ marginTop: 2 }}>
+                <Text c="gray.5" lh={1}>
                     {title}
                 </Text>
-                <Text fz={isMobile ? 28 : 32} c="white" lh={1}>
+                <Text fz={28} c="white" lh={1} style={{ marginTop: 3 }}>
                     {currency && prefixChecked && <span className="currency-symbol prefix">{currency}</span>}
                     {new Intl.NumberFormat("nb-NO", { maximumFractionDigits: 0 }).format(value)}
                     {currency && !prefixChecked && <span className="currency-symbol suffix">{currency}</span>}

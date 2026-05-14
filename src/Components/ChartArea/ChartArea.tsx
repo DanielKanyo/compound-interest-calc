@@ -28,9 +28,10 @@ type StatCardProps = {
 };
 
 const StatCard = ({ title, value, icon: Icon, color, currency, prefixChecked, isMobile }: StatCardProps) => (
-    <Card shadow="sm" p={isMobile ? "sm" : "lg"} radius="md" bg={color} className="stat-card" w="100%">
-        <div className="circle circle1" style={{ background: `var(--mantine-color-${ColorMap.get(color)}-9` }}></div>
-        <div className="circle circle2" style={{ background: `var(--mantine-color-${ColorMap.get(color)}-2` }}></div>
+    <Card shadow="sm" p={isMobile ? "sm" : "lg"} radius="md" bg="dark" className="stat-card" w="100%">
+        <div className="circle circle1" style={{ background: `var(--mantine-color-${ColorMap.get(color)}-5)` }}></div>
+        <div className="circle circle2" style={{ background: `var(--mantine-color-${ColorMap.get(color)}-4)` }}></div>
+        <div className="circle circle3" style={{ background: "var(--mantine-color-pink-5)" }}></div>
         <Flex gap="lg" style={{ zIndex: 1 }}>
             <Flex align="center">
                 <Avatar variant="filled" radius="md" size={55} color={`${ColorMap.get(color)}.9`}>

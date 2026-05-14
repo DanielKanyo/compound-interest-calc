@@ -61,7 +61,6 @@ export const Inputs = ({
                 <Flex gap="md" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
                     <Tooltip
                         label='"Initial Investment" refers to the starting amount of money invested before any additional contributions or interest growth occurs in a compound interest calculation.'
-                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
@@ -70,7 +69,6 @@ export const Inputs = ({
                     >
                         <NumberInput
                             w="100%"
-                            size="md"
                             radius="md"
                             label="Initial Investment"
                             placeholder="Amount"
@@ -85,7 +83,6 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Monthly Contribution" refers to the fixed amount of money added to the investment each month, which accumulates alongside the compound interest over time.'
-                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
@@ -94,7 +91,6 @@ export const Inputs = ({
                     >
                         <NumberInput
                             w="100%"
-                            size="md"
                             radius="md"
                             label="Monthly Contribution"
                             placeholder="Amount"
@@ -109,7 +105,6 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Length of Time in Years" refers to the number of years an investment is allowed to grow with compound interest applied.'
-                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
@@ -118,7 +113,6 @@ export const Inputs = ({
                     >
                         <NumberInput
                             w="100%"
-                            size="md"
                             radius="md"
                             label="Length of Time in Years"
                             placeholder="Amount"
@@ -134,7 +128,6 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Interest Rate" refers to the percentage at which your investment grows annually due to earned interest, compounded over time in a compound interest calculation.'
-                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
@@ -143,7 +136,6 @@ export const Inputs = ({
                     >
                         <NumberInput
                             w="100%"
-                            size="md"
                             radius="md"
                             label="Interest Rate"
                             placeholder="Amount"
@@ -165,7 +157,6 @@ export const Inputs = ({
                 <Flex gap="md" justify="flex-start" align="flex-start" direction="column" wrap="wrap">
                     <Tooltip
                         label='"Inflation Rate" refers to the percentage increase in the general price level of goods and services over time, which can reduce the real value of returns in a compound interest investment.'
-                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
@@ -174,7 +165,6 @@ export const Inputs = ({
                     >
                         <NumberInput
                             w="100%"
-                            size="md"
                             radius="md"
                             label="Inflation Rate"
                             suffix="%"
@@ -190,7 +180,6 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Increase in Annual Contributions" refers to the additional amount added each year to the principal investment, which grows alongside the accumulated interest over time in a compound interest scenario.'
-                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
@@ -199,7 +188,6 @@ export const Inputs = ({
                     >
                         <NumberInput
                             w="100%"
-                            size="md"
                             radius="md"
                             label="Increase in Annual Contributions"
                             suffix="%"
@@ -215,7 +203,6 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"End of Contributions" refers to the point in time when additional investments or deposits into the account stop, while the existing balance may continue to grow with compound interest.'
-                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
@@ -224,7 +211,6 @@ export const Inputs = ({
                     >
                         <NumberInput
                             w="100%"
-                            size="md"
                             radius="md"
                             label="End of Contributions"
                             placeholder="Year"
@@ -236,7 +222,6 @@ export const Inputs = ({
                     </Tooltip>
                     <Tooltip
                         label='"Goal" refers to the target amount of money you aim to reach through investments and compound interest over a specified period.'
-                        color={compInterestColor}
                         position="right"
                         withArrow
                         w={320}
@@ -245,7 +230,6 @@ export const Inputs = ({
                     >
                         <NumberInput
                             w="100%"
-                            size="md"
                             radius="md"
                             label="Goal"
                             placeholder="Amount"
@@ -262,13 +246,8 @@ export const Inputs = ({
             <Container m="md" p={0}>
                 <CopyButton value={window.location.href}>
                     {({ copied, copy }) => (
-                        <Tooltip
-                            label={copied ? "Copied" : "Copy URL with Entered Parameters"}
-                            color={compInterestColor}
-                            withArrow
-                            radius="md"
-                        >
-                            <Button color={compInterestColor} onClick={copy} fullWidth>
+                        <Tooltip label={copied ? "Copied" : "Copy URL with Entered Parameters"} withArrow radius="md">
+                            <Button color={compInterestColor} onClick={copy} radius="md" fullWidth>
                                 {copied ? (
                                     <IconChecks style={{ width: rem(20), height: rem(20) }} />
                                 ) : (

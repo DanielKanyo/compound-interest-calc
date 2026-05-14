@@ -1,4 +1,4 @@
-import { TwitterShareButton, FacebookShareButton } from "react-share";
+import { FacebookShareButton, XShareButton } from "react-share";
 
 import { ActionIcon, Flex, Group, ThemeIcon, Tooltip } from "@mantine/core";
 import { useFullscreen } from "@mantine/hooks";
@@ -34,19 +34,19 @@ export function Footer({
     return (
         <Flex justify="space-between" align="center" direction="row" wrap="wrap" px="lg" h="100%">
             <Group gap="xs">
-                <Tooltip label="Share on Facebook" color={compInterestColor} radius="md" withArrow>
+                <Tooltip label="Share on Facebook" radius="md" withArrow>
                     <FacebookShareButton url={window.location.origin}>
                         <ThemeIcon variant="default" size="lg" radius="md">
                             <IconBrandFacebook size={20} stroke={1.5} />
                         </ThemeIcon>
                     </FacebookShareButton>
                 </Tooltip>
-                <Tooltip label="Share on X" color={compInterestColor} radius="md" withArrow>
-                    <TwitterShareButton url={window.location.origin}>
+                <Tooltip label="Share on X" radius="md" withArrow>
+                    <XShareButton url={window.location.origin}>
                         <ThemeIcon variant="default" size="lg" radius="md">
                             <IconBrandX size={20} stroke={1.5} />
                         </ThemeIcon>
-                    </TwitterShareButton>
+                    </XShareButton>
                 </Tooltip>
             </Group>
             <div>
@@ -63,7 +63,7 @@ export function Footer({
                     />
                 )}
                 {!isMobile && (
-                    <Tooltip label={fullscreen ? "Exit Fullscreen" : "Enter Fullscreen"} color={compInterestColor} radius="md" withArrow>
+                    <Tooltip label={fullscreen ? "Exit Fullscreen" : "Enter Fullscreen"} radius="md" withArrow>
                         <ActionIcon variant="default" size="lg" aria-label="full-screen" onClick={toggle} radius="md">
                             {fullscreen ? <IconArrowsMinimize size={20} stroke={1.5} /> : <IconArrowsMaximize size={20} stroke={1.5} />}
                         </ActionIcon>

@@ -12,7 +12,7 @@ import {
     Switch,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { IconQuestionMark, IconSun, IconMoon, IconSettings } from "@tabler/icons-react";
+import { IconSun, IconMoon, IconSettings, IconInfoSquareRoundedFilled } from "@tabler/icons-react";
 
 type HeaderActions = {
     currency: string;
@@ -42,7 +42,7 @@ export const HeaderActions = ({
     return (
         <>
             <Group gap="xs">
-                <Tooltip label="About Compound Interest" color={compInterestColor} radius="md" withArrow>
+                <Tooltip label="About Compound Interest" radius="md" withArrow>
                     <ActionIcon
                         component="a"
                         href="https://www.investopedia.com/terms/c/compoundinterest.asp"
@@ -52,10 +52,10 @@ export const HeaderActions = ({
                         target="_blank"
                         radius="md"
                     >
-                        <IconQuestionMark stroke={1.5} />
+                        <IconInfoSquareRoundedFilled stroke={1.5} />
                     </ActionIcon>
                 </Tooltip>
-                <Tooltip label="Toggle Color Scheme" color={compInterestColor} radius="md" withArrow>
+                <Tooltip label="Toggle Color Scheme" radius="md" withArrow>
                     <ActionIcon
                         onClick={() => setColorScheme(computedColorScheme === "light" ? "dark" : "light")}
                         variant="default"
@@ -66,7 +66,7 @@ export const HeaderActions = ({
                         {computedColorScheme === "dark" ? <IconSun stroke={1.5} /> : <IconMoon stroke={1.5} />}
                     </ActionIcon>
                 </Tooltip>
-                <Tooltip label="Settings" color={compInterestColor} radius="md" withArrow>
+                <Tooltip label="Settings" radius="md" withArrow>
                     <ActionIcon onClick={open} variant="default" size="lg" aria-label="Toggle settings" radius="md">
                         <IconSettings stroke={1.1} />
                     </ActionIcon>

@@ -17,9 +17,9 @@ type BreakdownProps = {
 const renderTableHeaders = (label: string, currency: string) => (
     <Table.Thead>
         <Table.Tr>
-            <Table.Th ps={30}>{label}</Table.Th>
+            <Table.Th ps={20}>{label}</Table.Th>
             <Table.Th ta="center">Contribution {currency ? `(${currency})` : ""}</Table.Th>
-            <Table.Th ta="right" pe={30}>
+            <Table.Th pe={20} ta="right">
                 Value {currency ? `(${currency})` : ""}
             </Table.Th>
         </Table.Tr>
@@ -63,9 +63,9 @@ export const Breakdown = ({ yearly, monthly, goal, currency, goalYear, goalMonth
     const renderRows = <T extends { contribution: number; value: number }>(data: T[], labelKey: keyof T) =>
         data.map((d, i) => (
             <Table.Tr key={i} data-goal={Number(goal) && d.value === Number(goal)}>
-                <Table.Td ps={30}>{String(d[labelKey])}</Table.Td>
+                <Table.Td ps={20}>{String(d[labelKey])}</Table.Td>
                 <Table.Td ta="center">{compactFormatter.format(d.contribution)}</Table.Td>
-                <Table.Td ta="right" pe={30}>
+                <Table.Td pe={20} ta="right">
                     {valueFormatter.format(d.value)}
                 </Table.Td>
             </Table.Tr>

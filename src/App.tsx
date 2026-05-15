@@ -181,8 +181,8 @@ export const App = () => {
         <AppShell
             header={{ height: 60 }}
             footer={{ height: 60 }}
-            navbar={{ width: 410, breakpoint: "md", collapsed: { mobile: !navbarOpened } }}
-            aside={{ width: 360, breakpoint: "md", collapsed: { mobile: !breakdownOpened } }}
+            navbar={{ width: 340, breakpoint: "md", collapsed: { mobile: !navbarOpened } }}
+            aside={{ width: 350, breakpoint: "xl", collapsed: { mobile: !breakdownOpened } }}
             transitionDuration={0}
             padding="md"
         >
